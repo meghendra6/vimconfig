@@ -46,6 +46,7 @@ Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Git Plugin
 Bundle 'tpope/vim-fugitive'
 Bundle 'klen/python-mode'
+Bundle 'vim-scripts/Pydiction'
 
 filetype plugin indent on     " required!
 
@@ -110,6 +111,8 @@ nmap <C-F8> :Gozilla<CR>
 nmap <C-n> :cn<CR>
 nmap <C-p> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
+
+let mapleader = ','
 
 "====================================================
 "= 키맵핑

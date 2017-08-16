@@ -49,6 +49,7 @@ Bundle 'klen/python-mode'
 Bundle 'vim-scripts/Pydiction'
 
 filetype plugin indent on     " required!
+syntax on
 
 "====================================================
 "= 어셈블리 파일을 C처럼 인식하여 주석을 달기 위한 트릭
@@ -70,6 +71,8 @@ set expandtab
 set incsearch
 set printoptions=portrait:n,wrap:n,duplex:off
 set fileencodings=utf-8,euc-kr
+set ignorecase
+set smartcase
 colorscheme desert
 
 "==========================

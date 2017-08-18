@@ -12,4 +12,4 @@ echo "vundle 다운로드중..."
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 
 echo "vundle 설치중..."
-vi -c :BundleInstall -c :qa
+nvim -c :BundleInstall -c :qa

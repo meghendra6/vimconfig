@@ -11,53 +11,103 @@
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 
-set nocompatible               " be iMproved
+set nocompatible               " be iMproved, required!
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()		" required!
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
-Bundle 'snipMate'
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'The-NERD-tree'
-Bundle 'taglist.vim'
-Bundle 'bufexplorer.zip'
-Bundle 'DirDiff.vim'
-Bundle 'git://github.com/wesleyche/SrcExpl.git'
-Bundle 'SuperTab'
-"Bundle 'SuperTab-continued.'
-Bundle 'cscope_macros.vim'
-Bundle 'gtags.vim'
-"Bundle 'OmniCppComplete'
-Bundle 'armasm'
-Bundle 'https://github.com/dhruvasagar/vim-table-mode.git'
+"Plugin 'SuperTab'
+"Plugin 'SuperTab-continued.'
+"Plugin 'OmniCppComplete'
+"Plugin 'AutoComplPop'
+Plugin 'Valloric/YouCompleteMe'
+
+Plugin 'tpope/vim-fugitive'
+"Plugin 'Syntastic'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+Plugin 'Lokaltog/vim-easymotion'
+
+"Plugin 'snipMate'
+Plugin 'SirVer/UltiSnips'	" Track the engine.
+Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
+
+Plugin 'L9'
+Plugin 'The-NERD-tree'
 "주석달기: \cc, \cn, \cs
 "다른모양 주석 설정: \ca
 "주석해제: \<space>
-Bundle 'The-NERD-Commenter'
-"Bundle 'AutoComplPop'
-"Bottom Bar
-if !has('nvim')
-Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-else
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
-endif
-"Git Plugin
-Bundle 'tpope/vim-fugitive'
-Bundle 'klen/python-mode'
-Bundle 'vim-scripts/Pydiction'
-Bundle 'scrooloose/syntastic'
-Bundle 'majutsushi/tagbar'
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'The-NERD-Commenter'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'scrooloose/NERDTreeToggle'
+
+"Plugin 'taglist.vim'
+Plugin 'taglist-plus'
+
+Plugin 'bufexplorer.zip'
+"Plugin 'DirDiff.vim'
+Plugin 'https://github.com/wesleyche/SrcExpl.git'
+Plugin 'cscope_macros.vim'
+Plugin 'gtags.vim'
+"Plugin 'armasm'
+"Plugin 'https://github.com/dhruvasagar/vim-table-mode.git'
+
+Plugin 'CCTree'
+
+"Plugin 'FuzzyFinder'
+"Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'ctrlp.vim'
+
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mileszs/ack.vim'
+Plugin 'chrisbra/NrrwRgn'
+Plugin 'tommcdo/vim-lion'
+
+"Pyth
+"Plugin 'klen/python-mode'
+"Plugin 'vim-scripts/Pydiction'
+"Plugin  'scrooloose/syntastic'
+"Plugin 'majutsushi/tagbar'
+
+call vundle#end()		" required!
+
+" Brief help
+" :PluginList          - list configured plugins
+" :PluginInstall(!)    - install (update) plugins
+" :PluginSearch(!) foo - search (or refresh cache first) for foo
+" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+" see :h vundle for more details or wiki for FAQ
 
 filetype plugin indent on     " required!
-syntax on
+
+"====================================================
+"= AutoComplPop Configuration
+"====================================================
+"autocomplpop
+"function! InsertTabWrapper()
+"	let col = col('.')-1
+"	if !col || getline('.')[col-1]!~'\k'
+"		return "\<TAB>"
+"	else
+"		if pumvisible()
+"			return "\<C-N>"
+"		else
+"			return "\<C-N>\<C-P>"
+"		end
+"	endif
+"endfunction
+"
+"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+"
+"hi Pmenu ctermbg=blue
+"hi PmenuSel ctermbg=yellow ctermbg=black
+"hi PmenuSbar ctermbg=blue
 
 "====================================================
 "= 어셈블리 파일을 C처럼 인식하여 주석을 달기 위한 트릭
@@ -67,21 +117,86 @@ au BufRead,BufNewFile *.S		set ft=c
 "====================================================
 "= 기본 설정
 "====================================================
-set cindent			"들여쓰기 설정
+syntax enable
+set cindent			" 들여쓰기 설정
+set smartindent			" Smart Indent
+set autoindent			" auto indent
 set ruler			" 화면 우측 하단에 현재 커서의 위치(줄,칸)를 보여준다.
 set number			" 줄번호 출력
 set modifiable
 set hlsearch			" Highlight Search
-set ts=4			" tab stop - tab 크기
-set sw=4			" shift width - shift 크기 조절
-set sts=4			" soft tab stop - tab 이동 크기
-set expandtab
 set incsearch
+set ignorecase			" 대소문자구분 안함
 set printoptions=portrait:n,wrap:n,duplex:off
 set fileencodings=utf-8,euc-kr
-set ignorecase
-set smartcase
-colorscheme desert
+set gfn=나눔고딕코딩\ 12	" gvim용 폰트 설정
+colorscheme elflord
+"set statusline=%<%F\ %h%m%r%y%=%-14.(%l,%c%V%)\ %P
+"set statusline=%n:\ %f%m%r%h%w\ [%Y,%{&fileencoding},%{&fileformat}]\ [%l-%L,%v][%p%%]	" set the statusline
+set laststatus=2									" showing statusline
+set mps+=<:>			" 괄호짝 찾기에서 <> 도 찾도록 추가
+set showmatch			" show matched brace
+
+set ts=8			" tab stop - tab 크기
+set sw=8			" shift width - shift 크기 조절
+set sts=8			" soft tab stop - tab 이동 크기
+set noexpandtab
+"set sts=4
+"set tabstop=4
+"set sw=4
+"set expandtab
+
+set completeopt+=preview
+
+"==========================
+"= Ultisnips settings
+"==========================
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-h>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+
+" If you want :UltiSnipsEdit to split your window.
+ let g:UltiSnipsEditSplit="vertical"
+
+"==========================
+"= airline settings
+"==========================
+" 버퍼 목록 켜기
+let g:airline#extensions#tabline#enabled = 1
+
+" 파일명만 출력
+"let g:airline#extensions#tabline#fnamemod = ':t'
+
+"==========================
+"= YCM settings
+"==========================
+let g:ycm_global_ycm_extra_conf = "./.ycm_extra_conf.py"
+let g:ycm_confirm_extra_conf = 0
+"To avoid conflict snippets
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+nnoremap <C-s>g :YcmCompleter GoTo<CR>
+nnoremap <C-s>gg :YcmCompleter GoToImprecise<CR>
+nnoremap <C-s>d :YcmCompleter GoToDeclaration<CR>
+nnoremap <C-s>t :YcmCompleter GetType<CR>
+nnoremap <C-s>p :YcmCompleter GetParent<CR>
+
+"==========================
+"= Syntastic settings
+"==========================
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+"let g:syntastic_cpp_config_file = '.syntastic'
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 "==========================
 "= autocmd
@@ -92,13 +207,14 @@ autocmd BufEnter *.py       setlocal ts=8 sw=8 sts=8 noexpandtab
 autocmd BufEnter Makefile   setlocal ts=8 sw=8 sts=8 noexpandtab
 autocmd BufEnter .*         setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 autocmd BufEnter *.md       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
+
 "augroup vimrc_autocmds
-"    autocmd!
-    " highlight characters past column 120
-    autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python match Excess /\%120v.*/
-    autocmd FileType python set nowrap
-"    augroup END
+""    autocmd!
+"    " highlight characters past column 120
+"    autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
+"    autocmd FileType python match Excess /\%120v.*/
+"    autocmd FileType python set nowrap
+""    augroup END
 autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -121,19 +237,40 @@ nmap <C-F5> :Gtags<SPACE>
 nmap <C-F6> :Gtags -f %<CR>
 nmap <C-F7> :GtagsCursor<CR>
 nmap <C-F8> :Gozilla<CR>
-nmap <C-n> :cn<CR>
-nmap <C-p> :cp<CR>
+"nmap <C-n> :cn<CR>
+"nmap <C-p> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
+
+",gd 입력. 현재 cursor가 위치한 string을 tag에서 검색(definition등)
+nmap <Leader>gd :Gtags <C-R>=expand("<cword>")<CR><CR> 
+",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
+nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
+",gs 입력. 현재 cursor가 위치한 string으로 symbol 검색.(variable등)
+nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>
+",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
+nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
+",gp 입력, 파일명 검색 
+nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
+",ge 입력, --regexp 검색. 
+nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
+     
+" 위의 사용법과 동일하며, case sensitivity를 ignore
+nmap <Leader>igd :Gtags -i <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>igr :Gtags -ir <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>igs :Gtags -is <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>igg :Gtags -igo <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>igp :Gtags -iPo <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>ige :Gtags -ige <C-R>=expand("<cword>")<CR><CR>
 
 "====================================================
 "= 키맵핑
 "====================================================
 " <F3> 이전 정의로 이동 (SrcExpl 플러그인이 설정)
 " <F4> 다음 정의로 이동 (SrcExpl 플러그인이 설정)
-map <F2> :NERDTreeToggle<CR>
 map <F3> :BufExplorer<cr>
-map <F4> :SrcExplToggle<CR>
-map <F5> :TlistToggle<CR>
+map <F4> :NERDTreeToggle<CR>
+map <F5> :SrcExplToggle<CR>
+map <F6> :TlistToggle<CR>
 
 "=====  PageUP PageDown
 map <PageUp> <C-U><C-U>
@@ -151,6 +288,20 @@ nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k 
 nmap <c-l> <c-w>l 
 
+"===== Vim 내에서 창 간 이동
+" To do the first type of search, hit 'CTRL-\', followed by one of the 
+" cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope 
+" search will be displayed in the current window.  You can use CTRL-T to 
+" go back to where you were before the search. 
+"nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+"nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+"nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> 
+"nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR> 
+
 "===== 버퍼간 이동
 map ,x :bn!<CR>	  " Switch to Next File Buffer
 map ,z :bp!<CR>	  " Switch to Previous File Buffer
@@ -167,11 +318,10 @@ map ,8 :b!8<CR>	  " Switch to File Buffer #8
 map ,9 :b!9<CR>	  " Switch to File Buffer #9
 map ,0 :b!0<CR>	  " Switch to File Buffer #0
 
-"===== gtags.vim
-nmap <C-n> :cn<CR>
-nmap <C-p> :cp<CR>
-nmap <C-\><C-]> :GtagsCursor<CR>
 
+"===== for swpart
+"map <F2> <ESC>ko<End>/* swpart_lji_<C-R>=strftime("%Y%m%d")<CR> */<ESC>j<Home>
+map <F2> <ESC>ko<End>/*   */<ESC>3hi
 
 
 "===== make
@@ -248,7 +398,7 @@ let g:SrcExpl_nextDefKey = "<F4>"
 "====================================================
 "= Tag List
 "====================================================
-filetype on"vim filetpye on
+"filetype on"vim filetype on
 let Tlist_Ctags_Cmd="/usr/bin/ctags"
 let Tlist_Inc_Winwidth=0
 let Tlist_Exit_OnlyWindow=0
@@ -259,9 +409,9 @@ let Tlist_Use_Right_Window=1
 "====================================================
 "= Project config
 "====================================================
-if filereadable(".project.vimrc")
-	source .project.vimrc
-endif
+"if filereadable(".project.vimrc")
+"	source .project.vimrc
+"endif
 
 "====================================================
 "= NERD Tree
@@ -293,125 +443,145 @@ set tags=tags;/
 
 
 "====================================================
+"= NERD Tree
+"====================================================
+
+source ~/.vim/bundle/CCTree/ftplugin/cctree.vim
+
+let g:CCTreeCscopeDb = "cscope.out"
+let g:CCTreeRecursiveDepth = 3
+let g:CCTreeMinVisibleDepth = 3
+let g:CCTreeOrientation = "leftabove"
+let g:CCTreeWindowVertical = 1
+
+
+"====================================================
+"= NERD Commenter
+"====================================================
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" customize keymapping
+map <Leader>cc <plug>NERDComToggleComment
+map <Leader>c<space> <plug>NERDComComment
+
+"====================================================
+"= CTRLP
+"====================================================
+let g:ctrlp_custom_ignore = {
+            \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
+            \ 'file': '\v\.(exe|so|dll)$'
+            \ }
+"====================================================
+"= vim-multiple-cursors
+"====================================================
+let g:multi_cursor_use_default_mapping=0
+" Default mapping
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+let g:multi_cursor_start_key='<C-n>'
+let g:multi_cursor_start_word_key='g<C-n>'
+
+	    
+"====================================================
 "= Check Symbol
 "====================================================
-source ~/vimconfig/plugins/checksymbol.vim
-
-
-" GUI Settings {
-
-    " GVIM- (here instead of .gvimrc)
-    if has('gui_running')
-        set guioptions-=T           " Remove the toolbar
-        set lines=40                " 40 lines of text instead of 24
-        if has("gui_gtk2")
-            "set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
-            set guifont=나눔고딕코딩\ 12,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
-        elseif has("gui_mac")
-            set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18        elseif has("gui_win32")
-            set guifont=Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
-        endif
-        if has('gui_macvim')
-            set transparency=5      " Make the window slightly transparent
-        endif
-    else
-        if &term == 'xterm' || &term == 'screen'
-            set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-        endif
-        "set term=builtin_ansi       " Make arrow and other keys work
-    endif
-
-" }
+source ~/.vimconfig_iamroot/plugins/checksymbol.vim
 
 "=====================================================
 "" Python settings
 "=====================================================
 
-" python executables for different plugins
-let g:python_host_prog  = '/Users/meghendra/.pyenv/shims/python'
-let g:python3_host_prog  = '/Users/meghendra/.pyenv/shims/python3'
-
-let g:pymode_python='python3'
-let g:syntastic_python_python_exec='python3'
-
-" rope
-let g:pymode_rope=0
-let g:pymode_rope_completion=0
-let g:pymode_rope_complete_on_dot=0
-let g:pymode_rope_auto_project=0
-let g:pymode_rope_enable_autoimport=0
-let g:pymode_rope_autoimport_generate=0
-let g:pymode_rope_guess_project=0
-
-" documentation
-let g:pymode_doc=0
-let g:pymode_doc_key='K'
-
-" lints
-let g:pymode_lint=0
-
-" virtualenv
-let g:pymode_virtualenv=1
-
-" breakpoints
-let g:pymode_breakpoint=1
-let g:pymode_breakpoint_key='<leader>b'
-
-let mapleader = ','
-
-" syntax highlight
-let g:pymode_syntax=1
-let g:pymode_syntax_slow_sync=1
-let g:pymode_syntax_all=1
-let g:pymode_syntax_print_as_function=g:pymode_syntax_all
-let g:pymode_syntax_highlight_async_await=g:pymode_syntax_all
-let g:pymode_syntax_highlight_equal_operator=g:pymode_syntax_all
-let g:pymode_syntax_highlight_stars_operator=g:pymode_syntax_all
-let g:pymode_syntax_highlight_self=g:pymode_syntax_all
-let g:pymode_syntax_indent_errors=g:pymode_syntax_all
-let g:pymode_syntax_string_formatting=g:pymode_syntax_all
-let g:pymode_syntax_space_errors=g:pymode_syntax_all
-let g:pymode_syntax_string_format=g:pymode_syntax_all
-let g:pymode_syntax_string_templates=g:pymode_syntax_all
-let g:pymode_syntax_doctests=g:pymode_syntax_all
-let g:pymode_syntax_builtin_objs=g:pymode_syntax_all
-let g:pymode_syntax_builtin_types=g:pymode_syntax_all
-let g:pymode_syntax_highlight_exceptions=g:pymode_syntax_all
-let g:pymode_syntax_docstrings=g:pymode_syntax_all
-
-augroup vimrc_autocmds
-    autocmd!
-    autocmd FileType python set colorcolumn=
-augroup END
-
-" code folding
-let g:pymode_folding=0
-
-" pep8 indents
-let g:pymode_indent=1
-
-" code running
-let g:pymode_run=1
-
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_enable_signs=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_aggregate_errors=1
-let g:syntastic_loc_list_height=5
-let g:syntastic_error_symbol='X'
-let g:syntastic_style_error_symbol='X'
-let g:syntastic_warning_symbol='x'
-let g:syntastic_style_warning_symbol='x'
-let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
-
-" YouCompleteMe
-set completeopt-=preview
-
-let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf=0
-
-nmap <leader>g :YcmCompleter GoTo<CR>
-nmap <leader>d :YcmCompleter GoToDefinition<CR>
-
+"" python executables for different plugins
+"let g:python_host_prog  = '/Users/meghendra/.pyenv/shims/python'
+"let g:python3_host_prog  = '/Users/meghendra/.pyenv/shims/python3'
+"
+"let g:pymode_python='python3'
+"let g:syntastic_python_python_exec='python3'
+"
+"" rope
+"let g:pymode_rope=0
+"let g:pymode_rope_completion=0
+"let g:pymode_rope_complete_on_dot=0
+"let g:pymode_rope_auto_project=0
+"let g:pymode_rope_enable_autoimport=0
+"let g:pymode_rope_autoimport_generate=0
+"let g:pymode_rope_guess_project=0
+"
+"" documentation
+"let g:pymode_doc=0
+"let g:pymode_doc_key='K'
+"
+"" lints
+"let g:pymode_lint=0
+"
+"" virtualenv
+"let g:pymode_virtualenv=1
+"
+"" breakpoints
+"let g:pymode_breakpoint=1
+"let g:pymode_breakpoint_key='<leader>b'
+"
+"let mapleader = ','
+"
+"" syntax highlight
+"let g:pymode_syntax=1
+"let g:pymode_syntax_slow_sync=1
+"let g:pymode_syntax_all=1
+"let g:pymode_syntax_print_as_function=g:pymode_syntax_all
+"let g:pymode_syntax_highlight_async_await=g:pymode_syntax_all
+"let g:pymode_syntax_highlight_equal_operator=g:pymode_syntax_all
+"let g:pymode_syntax_highlight_stars_operator=g:pymode_syntax_all
+"let g:pymode_syntax_highlight_self=g:pymode_syntax_all
+"let g:pymode_syntax_indent_errors=g:pymode_syntax_all
+"let g:pymode_syntax_string_formatting=g:pymode_syntax_all
+"let g:pymode_syntax_space_errors=g:pymode_syntax_all
+"let g:pymode_syntax_string_format=g:pymode_syntax_all
+"let g:pymode_syntax_string_templates=g:pymode_syntax_all
+"let g:pymode_syntax_doctests=g:pymode_syntax_all
+"let g:pymode_syntax_builtin_objs=g:pymode_syntax_all
+"let g:pymode_syntax_builtin_types=g:pymode_syntax_all
+"let g:pymode_syntax_highlight_exceptions=g:pymode_syntax_all
+"let g:pymode_syntax_docstrings=g:pymode_syntax_all
+"
+"augroup vimrc_autocmds
+"    autocmd!
+"    autocmd FileType python set colorcolumn=
+"augroup END
+"
+"" code folding
+"let g:pymode_folding=0
+"
+"" pep8 indents
+"let g:pymode_indent=1
+"
+"" code running
+"let g:pymode_run=1
+"
+"" syntastic
+"let g:syntastic_always_populate_loc_list=1
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_enable_signs=1
+"let g:syntastic_check_on_wq=0
+"let g:syntastic_aggregate_errors=1
+"let g:syntastic_loc_list_height=5
+"let g:syntastic_error_symbol='X'
+"let g:syntastic_style_error_symbol='X'
+"let g:syntastic_warning_symbol='x'
+"let g:syntastic_style_warning_symbol='x'
+"let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']

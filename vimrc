@@ -501,7 +501,7 @@ let g:multi_cursor_start_word_key='g<C-n>'
 "====================================================
 "= Check Symbol
 "====================================================
-source ~/.vimconfig_iamroot/plugins/checksymbol.vim
+"source ~/.vimconfig/plugins/checksymbol.vim
 
 "=====================================================
 "" Python settings

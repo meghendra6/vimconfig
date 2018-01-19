@@ -68,6 +68,7 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mileszs/ack.vim'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'tommcdo/vim-lion'
+Plugin 'surround.vim'
 
 "Pyth
 "Plugin 'klen/python-mode'

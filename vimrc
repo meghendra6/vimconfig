@@ -69,6 +69,7 @@ Plugin 'mileszs/ack.vim'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'tommcdo/vim-lion'
 Plugin 'surround.vim'
+Plugin 'Raimondi/delimitMate'
 
 "Pyth
 "Plugin 'klen/python-mode'
@@ -131,21 +132,23 @@ set ignorecase			" 대소문자구분 안함
 set printoptions=portrait:n,wrap:n,duplex:off
 set fileencodings=utf-8,euc-kr
 set gfn=나눔고딕코딩\ 12	" gvim용 폰트 설정
-colorscheme elflord
+"colorscheme elflord
+colorscheme CodeSchool3
+set termguicolors
 "set statusline=%<%F\ %h%m%r%y%=%-14.(%l,%c%V%)\ %P
 "set statusline=%n:\ %f%m%r%h%w\ [%Y,%{&fileencoding},%{&fileformat}]\ [%l-%L,%v][%p%%]	" set the statusline
 set laststatus=2									" showing statusline
 set mps+=<:>			" 괄호짝 찾기에서 <> 도 찾도록 추가
 set showmatch			" show matched brace
 
-set ts=8			" tab stop - tab 크기
-set sw=8			" shift width - shift 크기 조절
-set sts=8			" soft tab stop - tab 이동 크기
-set noexpandtab
-"set sts=4
-"set tabstop=4
-"set sw=4
-"set expandtab
+"set ts=8			" tab stop - tab 크기
+"set sw=8			" shift width - shift 크기 조절
+"set sts=8			" soft tab stop - tab 이동 크기
+"set noexpandtab
+set sts=4
+set tabstop=4
+set sw=4
+set expandtab
 
 set completeopt+=preview
 
@@ -498,7 +501,12 @@ let g:multi_cursor_quit_key='<Esc>'
 let g:multi_cursor_start_key='<C-n>'
 let g:multi_cursor_start_word_key='g<C-n>'
 
-	    
+
+"====================================================
+"= delimitMate
+"====================================================
+let delimitMate_expand_cr=1
+
 "====================================================
 "= Check Symbol
 "====================================================

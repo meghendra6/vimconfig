@@ -11,5 +11,8 @@ ln -sfv ~/.vimconfig/vimrc ~/.vimrc
 echo "vundle 다운로드중..."
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+mkdir -p ~/.config/nvim/colors
+cp ./colors/CodeSchool3.vim ~/.config/nvim/colors/
+
 echo "vundle 설치중..."
 vim -c :BundleInstall -c :qa

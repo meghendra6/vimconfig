@@ -77,6 +77,11 @@ Plugin 'Raimondi/delimitMate'
 "Plugin  'scrooloose/syntastic'
 "Plugin 'majutsushi/tagbar'
 
+"Color Highlight
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'lifepillar/vim-solarized8'
+"Plugin 'tomasr/molokai'
+
 call vundle#end()		" required!
 
 " Brief help
@@ -87,6 +92,7 @@ call vundle#end()		" required!
 " see :h vundle for more details or wiki for FAQ
 
 filetype plugin indent on     " required!
+syntax on
 
 "====================================================
 "= AutoComplPop Configuration
@@ -133,7 +139,10 @@ set printoptions=portrait:n,wrap:n,duplex:off
 set fileencodings=utf-8,euc-kr
 set gfn=나눔고딕코딩\ 12	" gvim용 폰트 설정
 "colorscheme elflord
+"colorscheme molokai
 colorscheme CodeSchool3
+"colorscheme apprentice
+"colorscheme solarized8_dark
 set termguicolors
 "set statusline=%<%F\ %h%m%r%y%=%-14.(%l,%c%V%)\ %P
 "set statusline=%n:\ %f%m%r%h%w\ [%Y,%{&fileencoding},%{&fileformat}]\ [%l-%L,%v][%p%%]	" set the statusline
@@ -151,6 +160,10 @@ set sw=4
 set expandtab
 
 set completeopt+=preview
+
+" Highlight Trailing whitespace
+highlight TrailSpace ctermbg=red guibg=red
+match TrailSpace /\s\+$/
 
 "==========================
 "= Ultisnips settings
@@ -506,6 +519,15 @@ let g:multi_cursor_start_word_key='g<C-n>'
 "= delimitMate
 "====================================================
 let delimitMate_expand_cr=1
+
+"====================================================
+"= vim-cpp-enhanced-highlight
+"====================================================
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_experimental_template_highlight = 1
 
 "====================================================
 "= Check Symbol

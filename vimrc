@@ -340,6 +340,9 @@ map ,0 :b!0<CR>	  " Switch to File Buffer #0
 "map <F2> <ESC>ko<End>/* swpart_lji_<C-R>=strftime("%Y%m%d")<CR> */<ESC>j<Home>
 map <F2> <ESC>ko<End>/*   */<ESC>3hi
 
+"===== for mac
+imap <F13> <Insert>
+
 
 "===== make
 let startdir = getcwd()
@@ -616,3 +619,4 @@ let g:cpp_experimental_template_highlight = 1
 "let g:syntastic_warning_symbol='x'
 "let g:syntastic_style_warning_symbol='x'
 "let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
+

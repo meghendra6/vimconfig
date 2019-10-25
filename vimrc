@@ -1,5 +1,3 @@
-"주의: Source Explorer의 충돌을 피하기 위해서 SrcExpl_pluginList를 새로 작성
-
 "====================================================
 "= Bundle
 "====================================================
@@ -18,25 +16,31 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()		" required!
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Plugin 'gmarik/Vundle.vim'
+Plugin 'marcopaganini/termschool-vim-theme'
+Plugin 'jacoborus/tender.vim'
 
 "Plugin 'SuperTab'
 "Plugin 'SuperTab-continued.'
 "Plugin 'OmniCppComplete'
 "Plugin 'AutoComplPop'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'ajh17/VimCompletesMe'
 
 Plugin 'tpope/vim-fugitive'
 "Plugin 'Syntastic'
+Plugin 'dense-analysis/ale' " Async. Syntastic
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'haya14busa/incsearch-fuzzy.vim'
 
 "Plugin 'snipMate'
 Plugin 'SirVer/UltiSnips'	" Track the engine.
 Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
+Plugin 'neoclide/coc.nvim'
 
 Plugin 'L9'
 Plugin 'The-NERD-tree'
@@ -140,9 +144,11 @@ set fileencodings=utf-8,euc-kr
 set gfn=나눔고딕코딩\ 12	" gvim용 폰트 설정
 "colorscheme elflord
 "colorscheme molokai
-colorscheme CodeSchool3
+"colorscheme CodeSchool3
 "colorscheme apprentice
 "colorscheme solarized8_dark
+colorscheme termschool
+"colorscheme tender
 set termguicolors
 "set statusline=%<%F\ %h%m%r%y%=%-14.(%l,%c%V%)\ %P
 "set statusline=%n:\ %f%m%r%h%w\ [%Y,%{&fileencoding},%{&fileformat}]\ [%l-%L,%v][%p%%]	" set the statusline
@@ -161,6 +167,8 @@ set expandtab
 
 set completeopt+=preview
 
+let mapleader = ','
+
 " Highlight Trailing whitespace
 highlight TrailSpace ctermbg=red guibg=red
 match TrailSpace /\s\+$/
@@ -178,29 +186,82 @@ let g:UltiSnipsJumpBackwardTrigger="<c-j>"
  let g:UltiSnipsEditSplit="vertical"
 
 "==========================
+"= Coc settings
+"==========================
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+"==========================
+"= Ack settings
+"==========================
+cnoreabbrev Ack Ack!
+nmap <Leader>a :Ack! 
+
+"==========================
 "= airline settings
 "==========================
 " 버퍼 목록 켜기
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'tender'
 
 " 파일명만 출력
 "let g:airline#extensions#tabline#fnamemod = ':t'
 
 "==========================
+"= ale settings
+"==========================
+"let g:ale_lint_on_save = 1                               "Lint when saving a file
+let g:ale_sign_error = '>>'                               "Lint error sign
+let g:ale_sign_warning = '--'                             "Lint warning sign
+let g:ale_statusline_format =[' %d E ', ' %d W ', '']    "Status line texts
+let g:ale_linters = {
+		\ 'cpp': ['clang'],
+		\ 'c':['clang'],
+		\'python':['flake8', 'pylint']
+		\}                                       "Lint cpp with clang
+
+let g:ale_fixers = {
+		\ 'cpp': ['clang-format'],
+		\ 'c':['clang-format'],
+		\ 'json':['prettier'],
+		\ 'python':['autopep8', 'isort']
+		\ }                                      "Fix clang errors
+" ALEFix, ALEFixSuggest 로 fix 사용 가능
+"
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
+
+"==========================
+"= VCM settings
+"==========================
+autocmd FileType vim let b:vcm_tab_complete = 'vim'
+
+
+"==========================
 "= YCM settings
 "==========================
-let g:ycm_global_ycm_extra_conf = "./.ycm_extra_conf.py"
-let g:ycm_confirm_extra_conf = 0
-"To avoid conflict snippets
-let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-nnoremap <C-s>g :YcmCompleter GoTo<CR>
-nnoremap <C-s>gg :YcmCompleter GoToImprecise<CR>
-nnoremap <C-s>d :YcmCompleter GoToDeclaration<CR>
-nnoremap <C-s>t :YcmCompleter GetType<CR>
-nnoremap <C-s>p :YcmCompleter GetParent<CR>
+"let g:ycm_global_ycm_extra_conf = "./.ycm_extra_conf.py"
+"let g:ycm_confirm_extra_conf = 0
+""To avoid conflict snippets
+"let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"
+"nnoremap <C-s>g :YcmCompleter GoTo<CR>
+"nnoremap <C-s>gg :YcmCompleter GoToImprecise<CR>
+"nnoremap <C-s>d :YcmCompleter GoToDeclaration<CR>
+"nnoremap <C-s>t :YcmCompleter GetType<CR>
+"nnoremap <C-s>p :YcmCompleter GetParent<CR>
 
 "==========================
 "= Syntastic settings
@@ -248,29 +309,29 @@ endif
 "====================================================
 "= gtags.vim 설정
 "====================================================
-nmap <C-F2> :copen<CR>
-nmap <C-F4> :cclose<CR>
-nmap <C-F5> :Gtags<SPACE>
-nmap <C-F6> :Gtags -f %<CR>
-nmap <C-F7> :GtagsCursor<CR>
-nmap <C-F8> :Gozilla<CR>
-"nmap <C-n> :cn<CR>
-"nmap <C-p> :cp<CR>
+" S-F2 is recognized as <F14>
+" C-F2 is recognized as <F26>
+" A-F2 - not recognized ,but A-F1 is recognized as <F37> (keymap.c goes only up to F37)
+nmap <F14> :copen<CR>
+nmap <F15> :cclose<CR>
+nmap <F17> :Gtags<SPACE>
+nmap <F18> :Gtags -f %<CR>
+nmap <F19> :GtagsCursor<CR>
+nmap <F20> :Gozilla<CR>
+nmap <C-n> :cn<CR>
+nmap <C-b> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
 
-",gd 입력. 현재 cursor가 위치한 string을 tag에서 검색(definition등)
-nmap <Leader>gd :Gtags <C-R>=expand("<cword>")<CR><CR> 
-",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
-nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
-",gs 입력. 현재 cursor가 위치한 string으로 symbol 검색.(variable등)
-nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>
+",gd 입력. 현재 cursorUlUlUlUl")<CR><CR>
+",gr 입력. 현재 cursorUlUlUlUlUlUltisnips eader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
+",gs 입력. 현재 cursorUlUlUltisnips nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>
 ",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
 nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
-",gp 입력, 파일명 검색 
+",gp 입력, 파일명 검색
 nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
-",ge 입력, --regexp 검색. 
+",ge 입력, --regexp 검색.
 nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
-     
+
 " 위의 사용법과 동일하며, case sensitivity를 ignore
 nmap <Leader>igd :Gtags -i <C-R>=expand("<cword>")<CR><CR>
 nmap <Leader>igr :Gtags -ir <C-R>=expand("<cword>")<CR><CR>
@@ -293,7 +354,7 @@ map <F6> :TlistToggle<CR>
 map <PageUp> <C-U><C-U>
 map <PageDown> <C-D><C-D>
 
-"===== Vim 내의 창 크기 조절
+"=====  창 크기 조절
 nmap <s-h> <C-W><
 nmap <s-j> <C-W>-
 nmap <s-k> <C-W>+
@@ -301,23 +362,23 @@ nmap <s-l> <C-W>>
 
 "===== Vim 내에서 창 간 이동
 nmap <c-h> <c-w>h
-nmap <c-j> <c-w>j 
-nmap <c-k> <c-w>k 
-nmap <c-l> <c-w>l 
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-l> <c-w>l
 
 "===== Vim 내에서 창 간 이동
-" To do the first type of search, hit 'CTRL-\', followed by one of the 
-" cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope 
-" search will be displayed in the current window.  You can use CTRL-T to 
-" go back to where you were before the search. 
+" To do the first type of search, hit 'CTRL-\', followed by one of the
+" cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
+" search will be displayed in the current window.  You can use CTRL-T to
+" go back to where you were before the search.
 "nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
 "nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
 "nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
 "nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>
 "nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
 "nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-"nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR> 
-"nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR> 
+"nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+"nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 "===== 버퍼간 이동
 map ,x :bn!<CR>	  " Switch to Next File Buffer
@@ -408,7 +469,7 @@ let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
 let g:SrcExpl_updateTagsKey = "<F12>"
 
 " // Set "<F3>" key for displaying the previous definition in the jump list
-let g:SrcExpl_prevDefKey = "<F3>"
+"let g:SrcExpl_prevDefKey = "<F3>"
 " // Set "<F4>" key for displaying the next definition in the jump list
 let g:SrcExpl_nextDefKey = "<F4>"
 
@@ -500,23 +561,27 @@ map <Leader>c<space> <plug>NERDComComment
 "====================================================
 "= CTRLP
 "====================================================
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
-            \ 'file': '\v\.(exe|so|dll)$'
+            \ 'file': '\v\.(exe|so|dll|pyc|o)$'
             \ }
+" Ignore in .gitignore
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']       "Ignore in .gitignore
+
 "====================================================
 "= vim-multiple-cursors
 "====================================================
 let g:multi_cursor_use_default_mapping=0
 " Default mapping
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-
-let g:multi_cursor_start_key='<C-n>'
-let g:multi_cursor_start_word_key='g<C-n>'
-
+let g:multi_cursor_start_word_key      = '<A-n>'
+let g:multi_cursor_select_all_word_key = '<A-a>'
+let g:multi_cursor_start_key           = 'g<A-n>'
+let g:multi_cursor_select_all_key      = 'g<A-a>'
+let g:multi_cursor_next_key            = '<A-n>'
+let g:multi_cursor_prev_key            = '<A-p>'
+let g:multi_cursor_skip_key            = '<A-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 "====================================================
 "= delimitMate
@@ -535,7 +600,7 @@ let g:cpp_experimental_template_highlight = 1
 "====================================================
 "= Check Symbol
 "====================================================
-"source ~/.vimconfig/plugins/checksymbol.vim
+source ~/.vimconfig/plugins/checksymbol.vim
 
 "=====================================================
 "" Python settings

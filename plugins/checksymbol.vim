@@ -525,6 +525,6 @@ fu! GitFile(hash)
 endfu
 
 nnoremap <silent> \ :call Calc(input("Calculate: "))<CR>
-nnoremap <silent> <CR> :call CheckSymbol(expand("<cword>"))<CR>
+nnoremap <silent> <C-\> :call CheckSymbol(expand("<cword>"))<CR>
 noremap <silent> gb :call GitBlame()<CR>
 noremap <silent> gl :call GitFullLog()<CR>

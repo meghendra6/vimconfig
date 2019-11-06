@@ -174,6 +174,16 @@ highlight TrailSpace ctermbg=red guibg=red
 match TrailSpace /\s\+$/
 
 "==========================
+"= Moving lines up or down
+"==========================
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+"==========================
 "= Ultisnips settings
 "==========================
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.

@@ -205,7 +205,7 @@ let g:coc_snippet_next = '<tab>'
 "= Ack settings
 "==========================
 cnoreabbrev Ack Ack!
-nmap <Leader>a :Ack! 
+nmap <Leader>a :Ack!
 
 "==========================
 "= airline settings
@@ -322,9 +322,12 @@ nmap <C-n> :cn<CR>
 nmap <C-b> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
 
-",gd 입력. 현재 cursorUlUlUlUl")<CR><CR>
-",gr 입력. 현재 cursorUlUlUlUlUlUltisnips eader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
-",gs 입력. 현재 cursorUlUlUltisnips nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>
+",gd 입력. 현재 cursor가 위치한 string을 tag에서 검색(definition등)
+nmap <Leader>gd :Gtags <C-R>=expand("<cword>")<CR><CR>
+",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
+nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
+",gs 입력. 현재 cursor가 위치한 string으로 symbol 검색.(variable등)
+nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>
 ",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
 nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
 ",gp 입력, 파일명 검색

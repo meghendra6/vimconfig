@@ -56,7 +56,7 @@ fu! Bitwise(var1, var2, one, two)
 endfu
 
 fu! Invert(var)
-	return Bitwise(a:var, 0xffffffff, 1, 0)
+	return Bitwise(a:var, 0xffffffffffffffff, 1, 0)
 endfu
 
 fu! And(var1, var2)

@@ -66,7 +66,7 @@ Plugin 'CCTree'
 
 "Plugin 'FuzzyFinder'
 "Plugin 'git://git.wincent.com/command-t.git'
-Plugin 'ctrlp.vim'
+"Plugin 'ctrlp.vim'
 
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mileszs/ack.vim'
@@ -85,6 +85,9 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'lifepillar/vim-solarized8'
 "Plugin 'tomasr/molokai'
+
+"Plugin 'Shougo/denite.nvim'
+Plugin 'jeetsukumaran/vim-buffergator'
 
 call vundle#end()		" required!
 
@@ -156,22 +159,59 @@ set laststatus=2									" showing statusline
 set mps+=<:>			" 괄호짝 찾기에서 <> 도 찾도록 추가
 set showmatch			" show matched brace
 
-"set ts=8			" tab stop - tab 크기
-"set sw=8			" shift width - shift 크기 조절
-"set sts=8			" soft tab stop - tab 이동 크기
-"set noexpandtab
-set sts=4
-set tabstop=4
-set sw=4
-set expandtab
-
 set completeopt+=preview
 
 let mapleader = ','
 
+" Yank and paste with the system clipboard
+set clipboard=unnamed
+
+" Hides buffers instead of closing them
+set hidden
+
+" === TAB/Space settings === "
+"set ts=8			" tab stop - tab 크기
+"set sw=8			" shift width - shift 크기 조절
+"set sts=8			" soft tab stop - tab 이동 크기
+"set noexpandtab
+" Change number of spaces that a <Tab> counts for during editing ops
+set sts=4
+set tabstop=4
+" Indentation amount for < and > commands.
+set sw=4
+" Insert spaces when TAB is pressed.
+set expandtab
+
+
+
 " Highlight Trailing whitespace
 highlight TrailSpace ctermbg=red guibg=red
 match TrailSpace /\s\+$/
+
+"==========================
+"= Moving lines up or down
+"==========================
+" 화면 오른쪽을 사용
+let g:buffergator_viewport_split_policy = 'R'
+
+" 단축키를 직접 지정하겠음
+let g:buffergator_suppress_keymaps = 1
+
+" 버퍼 돌기 (Looper buffers)
+"let g:buffergator_mru_cycle_loop = 1
+
+" 이전 버퍼로 이동
+nmap <leader>bj :BuffergatorMruCyclePrev<cr>
+
+" 다음 버퍼로 이동
+nmap <leader>bk :BuffergatorMruCycleNext<cr>
+
+" 모든 버퍼 보기
+nmap <leader>bl :BuffergatorOpen<cr>
+
+" 위의 첫번재 해결책과 공유하는 단축키 (버퍼 닫기를 뜻함)
+nmap <leader>T :enew<cr>
+nmap <leader>bq :bp <BAR> bd #<cr>
 
 "==========================
 "= Moving lines up or down
@@ -198,16 +238,133 @@ let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 "==========================
 "= Coc settings
 "==========================
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+"nmap <silent> <C-d> <Plug>(coc-range-select)
+"xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 let g:coc_snippet_next = '<tab>'
 
@@ -394,21 +551,9 @@ nmap <c-l> <c-w>l
 "nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 "===== 버퍼간 이동
-map ,x :bn!<CR>	  " Switch to Next File Buffer
-map ,z :bp!<CR>	  " Switch to Previous File Buffer
-map ,w :bw<CR>	  " Close Current File Buffer
-
-map ,1 :b!1<CR>	  " Switch to File Buffer #1
-map ,2 :b!2<CR>	  " Switch to File Buffer #2
-map ,3 :b!3<CR>	  " Switch to File Buffer #3
-map ,4 :b!4<CR>	  " Switch to File Buffer #4
-map ,5 :b!5<CR>	  " Switch to File Buffer #5
-map ,6 :b!6<CR>	  " Switch to File Buffer #6
-map ,7 :b!7<CR>	  " Switch to File Buffer #7
-map ,8 :b!8<CR>	  " Switch to File Buffer #8
-map ,9 :b!9<CR>	  " Switch to File Buffer #9
-map ,0 :b!0<CR>	  " Switch to File Buffer #0
-
+map <leader>x :bn!<CR>	  " Switch to Next File Buffer
+map <leader>z :bp!<CR>	  " Switch to Previous File Buffer
+map <leader>w :bw<CR>	  " Close Current File Buffer
 
 "===== for swpart
 "map <F2> <ESC>ko<End>/* swpart_lji_<C-R>=strftime("%Y%m%d")<CR> */<ESC>j<Home>
@@ -427,9 +572,9 @@ endfunc
 nmap ,mk :call Make()<cr><cr>
 
 "===== hexViewer
-let b:hexViewer = 0
+let g:hexViewer = 0
 func! Hv()
-        if (b:hexViewer == 0)
+        if (g:hexViewer == 0)
                 let b:hexViewer = 1
                 exe "%!xxd"
         else
@@ -577,10 +722,20 @@ map <Leader>c<space> <plug>NERDComComment
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o
 let g:ctrlp_custom_ignore = {
             \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
-            \ 'file': '\v\.(exe|so|dll|pyc|o)$'
+            \ 'file': '\v\.(exe|so|dll|pyc|o|class|png|jpg|jpeg)$'
             \ }
 " Ignore in .gitignore
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']       "Ignore in .gitignore
+
+" 가장 가까운 .git 디렉토리를 cwd(현재 작업 디렉토리)로 사용
+" 버전 관리를 사용하는 프로젝트를 할 때 꽤 적절하다.
+" .svn, .hg, .bzr도 지원한다.
+let g:ctrlp_working_path_mode = 'r'
+
+" 여러 모드를 위한 단축키
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
 
 "====================================================
 "= vim-multiple-cursors
@@ -698,3 +853,27 @@ source ~/.vimconfig/plugins/checksymbol.vim
 "let g:syntastic_style_warning_symbol='x'
 "let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
 
+" ============================================================================ "
+" ===                                 MISC.                                === "
+" ============================================================================ "
+
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Automatically re-read file if a change was detected outside of vim
+set autoread
+
+" Set backups
+if has('persistent_undo')
+  set undofile
+  set undolevels=3000
+  set undoreload=10000
+endif
+set backupdir=~/.local/share/nvim/backup " Don't put backups in current dir
+set backup
+set noswapfile
+
+" Reload icons after init source
+if exists('g:loaded_webdevicons')
+  call webdevicons#refresh()
+endif

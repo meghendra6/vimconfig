@@ -32,3 +32,7 @@ vim 플러그인을 쉽게 설치하기 위한 프로젝트.
 	:set fileencoding=utf-8		파일 인코딩 변경
 	v]}zf				코드의 { 부분에서 영역 접기
 	zo				영역 펼치기
+
+
+
+/home/meghendra/.vim/bundle/bufexplorer.zip/plugin/bufexplorer.vim << ,bs 등의 단축키 수정

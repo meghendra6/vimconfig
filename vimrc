@@ -18,28 +18,27 @@ call vundle#begin()		" required!
 " let Vundle manage Vundle
 " required!
 Plugin 'gmarik/Vundle.vim'
-Plugin 'marcopaganini/termschool-vim-theme'
-Plugin 'jacoborus/tender.vim'
 
 "Plugin 'SuperTab'
 "Plugin 'SuperTab-continued.'
 "Plugin 'OmniCppComplete'
 "Plugin 'AutoComplPop'
 "Plugin 'Valloric/YouCompleteMe'
-Plugin 'ajh17/VimCompletesMe'
+"Plugin 'ajh17/VimCompletesMe'
 
-Plugin 'tpope/vim-fugitive'
+"Plugin 'tpope/vim-fugitive'
 "Plugin 'Syntastic'
 Plugin 'dense-analysis/ale' " Async. Syntastic
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'haya14busa/incsearch-fuzzy.vim'
+"Plugin 'haya14busa/incsearch-easymotion.vim'
+"Plugin 'haya14busa/incsearch-fuzzy.vim'
 
 "Plugin 'snipMate'
 Plugin 'SirVer/UltiSnips'	" Track the engine.
-Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
+"Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
 Plugin 'neoclide/coc.nvim'
 
 Plugin 'L9'
@@ -54,7 +53,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 "Plugin 'taglist.vim'
 Plugin 'taglist-plus'
 
-Plugin 'bufexplorer.zip'
+"Plugin 'bufexplorer.zip'
 "Plugin 'DirDiff.vim'
 Plugin 'https://github.com/wesleyche/SrcExpl.git'
 Plugin 'cscope_macros.vim'
@@ -66,10 +65,10 @@ Plugin 'CCTree'
 
 "Plugin 'FuzzyFinder'
 "Plugin 'git://git.wincent.com/command-t.git'
-"Plugin 'ctrlp.vim'
+Plugin 'ctrlp.vim'
 
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'mileszs/ack.vim'
+Plugin 'jremmen/vim-ripgrep'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'tommcdo/vim-lion'
 Plugin 'surround.vim'
@@ -83,7 +82,9 @@ Plugin 'Raimondi/delimitMate'
 
 "Color Highlight
 Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'lifepillar/vim-solarized8'
+Plugin 'marcopaganini/termschool-vim-theme'
+Plugin 'jacoborus/tender.vim'
+"Plugin 'lifepillar/vim-solarized8'
 "Plugin 'tomasr/molokai'
 
 "Plugin 'Shougo/denite.nvim'
@@ -224,6 +225,19 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 "==========================
+"= Easymotion settings
+"==========================
+" Default key binding
+"map <Leader> <Plug>(easymotion-prefix)
+
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+"nmap <Leader>ff <Plug>(easymotion-overwin-f2)
+
+"==========================
 "= Ultisnips settings
 "==========================
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -278,10 +292,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
+" Use `[g` and `]g` to nammap <m
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -305,10 +316,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
+" Remap for format selected rem
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -317,24 +325,16 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" Remap for do codeAcmd)
 
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
+" Remap for do codeAcm" m
 " Create mappings for function text object, requires document symbols feature of languageserver.
 xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-"nmap <silent> <C-d> <Plug>(coc-range-select)
-"xmap <silent> <C-d> <Plug>(coc-range-select)
+" Use <C-d> for select selecm"xmap <silent> <C-d> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -371,8 +371,7 @@ let g:coc_snippet_next = '<tab>'
 "==========================
 "= Ack settings
 "==========================
-cnoreabbrev Ack Ack!
-nmap <Leader>a :Ack!
+nmap <Leader>r :Rg 
 
 "==========================
 "= airline settings
@@ -489,33 +488,22 @@ nmap <C-n> :cn<CR>
 nmap <C-b> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
 
-",gd 입력. 현재 cursor가 위치한 string을 tag에서 검색(definition등)
-nmap <Leader>gd :Gtags <C-R>=expand("<cword>")<CR><CR>
-",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
+",gd 입력. 현재 cursor가 위치한 stm",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
 nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
-",gs 입력. 현재 cursor가 위치한 string으로 symbol 검색.(variable등)
-nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>
-",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
+",gs 입력. 현재 cursor가 위치한 stm",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
 nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
 ",gp 입력, 파일명 검색
 nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
 ",ge 입력, --regexp 검색.
 nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
 
-" 위의 사용법과 동일하며, case sensitivity를 ignore
-nmap <Leader>igd :Gtags -i <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>igr :Gtags -ir <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>igs :Gtags -is <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>igg :Gtags -igo <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>igp :Gtags -iPo <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>ige :Gtags -ige <C-R>=expand("<cword>")<CR><CR>
-
+" 위의 사용법과 동일하며, case senmnmap <Leadermnmap <Leadermnmap <Leadermnmap <Leadermnmap <Leaderm
 "====================================================
 "= 키맵핑
 "====================================================
 " <F3> 이전 정의로 이동 (SrcExpl 플러그인이 설정)
 " <F4> 다음 정의로 이동 (SrcExpl 플러그인이 설정)
-map <F3> :BufExplorer<cr>
+"map <F3> :BufExplorer<cr>
 map <F4> :NERDTreeToggle<CR>
 map <F5> :SrcExplToggle<CR>
 map <F6> :TlistToggle<CR>
@@ -530,9 +518,7 @@ nmap <s-j> <C-W>-
 nmap <s-k> <C-W>+
 nmap <s-l> <C-W>>
 
-"===== Vim 내에서 창 간 이동
-nmap <c-h> <c-w>h
-nmap <c-j> <c-w>j
+"===== mnmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 
@@ -541,19 +527,11 @@ nmap <c-l> <c-w>l
 " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
 " search will be displayed in the current window.  You can use CTRL-T to
 " go back to where you were before the search.
-"nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-"nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-"nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
+"nmap <C-@>s :cs m"nmap <C-@>g :cs m"nmap <C-@>c :cs m"nmap <C-@>t :cs m"nmap <C-@>e :cs m"nmap <C-@>f :cs m"nmap <C-@m"nmap <C-@>d :cs m
 "===== 버퍼간 이동
-map <leader>x :bn!<CR>	  " Switch to Next File Buffer
-map <leader>z :bp!<CR>	  " Switch to Previous File Buffer
-map <leader>w :bw<CR>	  " Close Current File Buffer
+map <leader>bx :bn!<CR>	  " Switch to Next File Buffer
+map <leader>bz :bp!<CR>	  " Switch to Previous File Buffer
+map <leader>bw :bw<CR>	  " Close Current File Buffer
 
 "===== for swpart
 "map <F2> <ESC>ko<End>/* swpart_lji_<C-R>=strftime("%Y%m%d")<CR> */<ESC>j<Home>
@@ -676,7 +654,7 @@ function! LoadCscope()
   endif
 endfunction
 au BufEnter /* call LoadCscope()
- 
+
 "현재 디렉토리부터 root 디렉토리까지 tags를 찾는다.
 set tags=tags;/
 
@@ -747,7 +725,7 @@ let g:multi_cursor_select_all_word_key = '<A-a>'
 let g:multi_cursor_start_key           = 'g<A-n>'
 let g:multi_cursor_select_all_key      = 'g<A-a>'
 let g:multi_cursor_next_key            = '<A-n>'
-let g:multi_cursor_prev_key            = '<A-p>'
+let g:multi_cursor_prev_key            = '<A-b>'
 let g:multi_cursor_skip_key            = '<A-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 

@@ -3,6 +3,7 @@
     "https.proxy": "168.219.61.252:8080",
     "http.proxyStrictSSL": false,
     "https.proxyStrictSSL": false,
+    "coc.preferences.colorSupport": false,
     "languageserver": {
         "ccls": {
             "command": "ccls",
@@ -10,7 +11,7 @@
             "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
             "trace.server": "verbose",
             "initializationOptions": {
-                "cacheDirectory": "/tmp/ccls"
+                "cacheDirectory": ".ccls-cache"
             }
         },
         "rust": {

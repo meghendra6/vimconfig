@@ -37,8 +37,8 @@ Plugin 'Lokaltog/vim-easymotion'
 "Plugin 'haya14busa/incsearch-fuzzy.vim'
 
 "Plugin 'snipMate'
-Plugin 'SirVer/UltiSnips'	" Track the engine.
-"Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
+"Plugin 'SirVer/UltiSnips'	" Track the engine.
+Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
 Plugin 'neoclide/coc.nvim'
 
 Plugin 'L9'
@@ -241,13 +241,44 @@ nmap <Leader>f <Plug>(easymotion-overwin-f)
 "= Ultisnips settings
 "==========================
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-h>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsListSnippets="<c-tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-h>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 
 " If you want :UltiSnipsEdit to split your window.
- let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsEditSplit="vertical"
+
+"==========================
+"= Coc-snippet settings
+"==========================
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 "==========================
 "= Coc settings
@@ -366,7 +397,7 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-let g:coc_snippet_next = '<tab>'
+"let g:coc_snippet_next = '<tab>'
 
 "==========================
 "= Ack settings
@@ -410,7 +441,7 @@ let g:airline#extensions#ale#enabled = 1
 "==========================
 "= VCM settings
 "==========================
-autocmd FileType vim let b:vcm_tab_complete = 'vim'
+"autocmd FileType vim let b:vcm_tab_complete = 'vim'
 
 
 "==========================
@@ -447,10 +478,11 @@ autocmd FileType vim let b:vcm_tab_complete = 'vim'
 "==========================
 autocmd BufEnter *.c        setlocal ts=8 sw=8 sts=8 noexpandtab
 autocmd BufEnter *.S        setlocal ts=8 sw=8 sts=8 noexpandtab
-autocmd BufEnter *.py       setlocal ts=8 sw=8 sts=8 noexpandtab
+autocmd BufEnter *.py       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter Makefile   setlocal ts=8 sw=8 sts=8 noexpandtab
-autocmd BufEnter .*         setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
-autocmd BufEnter *.md       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
+autocmd BufEnter .*         setlocal ts=4 sw=4 sts=4 noexpandtab
+autocmd BufEnter *.md       setlocal ts=4 sw=4 sts=4 noexpandtab
+autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 
 "augroup vimrc_autocmds
 ""    autocmd!
@@ -459,7 +491,6 @@ autocmd BufEnter *.md       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 "    autocmd FileType python match Excess /\%120v.*/
 "    autocmd FileType python set nowrap
 ""    augroup END
-autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
@@ -478,12 +509,18 @@ endif
 " S-F2 is recognized as <F14>
 " C-F2 is recognized as <F26>
 " A-F2 - not recognized ,but A-F1 is recognized as <F37> (keymap.c goes only up to F37)
-nmap <F14> :copen<CR>
-nmap <F15> :cclose<CR>
-nmap <F17> :Gtags<SPACE>
-nmap <F18> :Gtags -f %<CR>
-nmap <F19> :GtagsCursor<CR>
-nmap <F20> :Gozilla<CR>
+nmap <S-F2> :copen<CR>
+nmap <S-F3> :cclose<CR>
+nmap <S-F4> :Gtags<SPACE>
+nmap <S-F5> :Gtags -f %<CR>
+nmap <S-F6> :GtagsCursor<CR>
+nmap <S-F7> :Gozilla<CR>
+" nmap <F14> :copen<CR>
+" nmap <F15> :cclose<CR>
+" nmap <F17> :Gtags<SPACE>
+" nmap <F18> :Gtags -f %<CR>
+" nmap <F19> :GtagsCursor<CR>
+" nmap <F20> :Gozilla<CR>
 nmap <C-n> :cn<CR>
 nmap <C-b> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
@@ -519,7 +556,7 @@ nmap <s-k> <C-W>+
 nmap <s-l> <C-W>>
 
 "===== mnmap <c-j> <c-w>j
-nmap <c-k> <c-w>k
+"nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 
 "===== Vim 내에서 창 간 이동
@@ -547,27 +584,27 @@ func! Make()
 	exe "!cd ".startdir
 	exe "make"
 endfunc
-nmap ,mk :call Make()<cr><cr>
+nmap <leader>mk :call Make()<cr><cr>
 
 "===== hexViewer
 let g:hexViewer = 0
 func! Hv()
         if (g:hexViewer == 0)
-                let b:hexViewer = 1
+                let g:hexViewer = 1
                 exe "%!xxd"
         else
-                let b:hexViewer = 0
+                let g:hexViewer = 0
                 exe "%!xxd -r"
         endif
 endfunc
-nmap ,h :call Hv()<cr>
+nmap <leader>h :call Hv()<cr>
 
 "===== man
 func! Man()
 	let sm = expand("<cword>")
 	exe "!man -S 2:3:4:5:6:7:8:9:tcl:n:l:p:o ".sm
 endfunc
-nmap ,ma :call Man()<cr><cr>
+nmap <leader>ma :call Man()<cr><cr>
 
 "====================================================
 "= Source Explorer config

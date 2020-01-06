@@ -57,7 +57,8 @@ Plugin 'taglist-plus'
 "Plugin 'DirDiff.vim'
 Plugin 'https://github.com/wesleyche/SrcExpl.git'
 Plugin 'cscope_macros.vim'
-Plugin 'gtags.vim'
+"Plugin 'gtags.vim'
+Plugin 'lyuts/vim-rtags'
 "Plugin 'armasm'
 "Plugin 'https://github.com/dhruvasagar/vim-table-mode.git'
 
@@ -402,7 +403,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "==========================
 "= Ack settings
 "==========================
-nmap <Leader>r :Rg 
+nmap <Leader>g :Rg 
 
 "==========================
 "= airline settings
@@ -506,33 +507,39 @@ endif
 "====================================================
 "= gtags.vim 설정
 "====================================================
+let g:rtagsJumpStackMaxSize = 100
+
+
+"====================================================
+"= gtags.vim 설정
+"====================================================
 " S-F2 is recognized as <F14>
 " C-F2 is recognized as <F26>
 " A-F2 - not recognized ,but A-F1 is recognized as <F37> (keymap.c goes only up to F37)
-nmap <S-F2> :copen<CR>
-nmap <S-F3> :cclose<CR>
-nmap <S-F4> :Gtags<SPACE>
-nmap <S-F5> :Gtags -f %<CR>
-nmap <S-F6> :GtagsCursor<CR>
-nmap <S-F7> :Gozilla<CR>
-" nmap <F14> :copen<CR>
-" nmap <F15> :cclose<CR>
-" nmap <F17> :Gtags<SPACE>
-" nmap <F18> :Gtags -f %<CR>
-" nmap <F19> :GtagsCursor<CR>
-" nmap <F20> :Gozilla<CR>
-nmap <C-n> :cn<CR>
-nmap <C-b> :cp<CR>
-nmap <C-\><C-]> :GtagsCursor<CR>
-
-",gd 입력. 현재 cursor가 위치한 stm",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
-nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
-",gs 입력. 현재 cursor가 위치한 stm",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
-nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
-",gp 입력, 파일명 검색
-nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
-",ge 입력, --regexp 검색.
-nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
+"nmap <S-F2> :copen<CR>
+"nmap <S-F3> :cclose<CR>
+"nmap <S-F4> :Gtags<SPACE>
+"nmap <S-F5> :Gtags -f %<CR>
+"nmap <S-F6> :GtagsCursor<CR>
+"nmap <S-F7> :Gozilla<CR>
+"" nmap <F14> :copen<CR>
+"" nmap <F15> :cclose<CR>
+"" nmap <F17> :Gtags<SPACE>
+"" nmap <F18> :Gtags -f %<CR>
+"" nmap <F19> :GtagsCursor<CR>
+"" nmap <F20> :Gozilla<CR>
+"nmap <C-n> :cn<CR>
+"nmap <C-b> :cp<CR>
+"nmap <C-\><C-]> :GtagsCursor<CR>
+"
+"",gd 입력. 현재 cursor가 위치한 stm",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
+"nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
+"",gs 입력. 현재 cursor가 위치한 stm",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
+"nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
+"",gp 입력, 파일명 검색
+"nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
+"",ge 입력, --regexp 검색.
+"nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
 
 " 위의 사용법과 동일하며, case senmnmap <Leadermnmap <Leadermnmap <Leadermnmap <Leadermnmap <Leaderm
 "====================================================

@@ -16,3 +16,8 @@ cp ./colors/CodeSchool3.vim ~/.config/nvim/colors/
 
 echo "vundle 설치중..."
 vim -c :BundleInstall -c :qa
+
+echo "rtags 설치중..."
+mkdir ~/.rdm
+ln -sfv ~/.vimconfig/rdmrc ~/.rdmrc
+

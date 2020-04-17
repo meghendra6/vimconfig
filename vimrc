@@ -28,7 +28,7 @@ Plugin 'gmarik/Vundle.vim'
 
 "Plugin 'tpope/vim-fugitive'
 "Plugin 'Syntastic'
-Plugin 'dense-analysis/ale' " Async. Syntastic
+"Plugin 'dense-analysis/ale' " Async. Syntastic
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
@@ -57,7 +57,7 @@ Plugin 'taglist-plus'
 "Plugin 'DirDiff.vim'
 Plugin 'https://github.com/wesleyche/SrcExpl.git'
 Plugin 'cscope_macros.vim'
-"Plugin 'gtags.vim'
+Plugin 'gtags.vim'
 Plugin 'lyuts/vim-rtags'
 "Plugin 'armasm'
 "Plugin 'https://github.com/dhruvasagar/vim-table-mode.git'
@@ -91,7 +91,15 @@ Plugin 'jacoborus/tender.vim'
 "Plugin 'Shougo/denite.nvim'
 Plugin 'jeetsukumaran/vim-buffergator'
 
+Plugin 'nathanaelkane/vim-indent-guides'
+
 call vundle#end()		" required!
+
+call plug#begin('~/.vim/plugged')
+Plug 'liuchengxu/vim-clap'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'rust-lang/rust.vim'
+call plug#end()
 
 " Brief help
 " :PluginList          - list configured plugins
@@ -102,6 +110,28 @@ call vundle#end()		" required!
 
 filetype plugin indent on     " required!
 syntax on
+
+"====================================================
+"= Clap Configuration
+"====================================================
+let g:clap_layout = { 'relative': 'editor' }
+let g:clap_theme = 'material_design_dark'
+let g:clap_open_action = { 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
+nmap <silent> cj :Clap jumps<CR>
+nmap <silent> cy :Clap yanks<CR>
+nmap <silent> cf :Clap files<CR>
+nmap <silent> cr :Clap grep<CR>
+nmap <silent> ch :Clap history<CR>
+nmap <silent> cd :Clap git_diff_files<CR>
+nmap <silent> cc :Clap commits<CR>
+nmap <silent> cb :Clap buffers<CR>
+
+"====================================================
+"= Rust-Analyzer Configuration
+"====================================================
+let g:LanguageClient_serverCommands = {
+\ 'rust': ['rust-analyzer'],
+\ }
 
 "====================================================
 "= AutoComplPop Configuration
@@ -137,7 +167,9 @@ au BufRead,BufNewFile *.S		set ft=c
 syntax enable
 set cindent			" 들여쓰기 설정
 set smartindent			" Smart Indent
+set smarttab            " Smart Tab
 set autoindent			" auto indent
+set bs=indent,eol,start
 set ruler			" 화면 우측 하단에 현재 커서의 위치(줄,칸)를 보여준다.
 set number			" 줄번호 출력
 set modifiable
@@ -160,6 +192,7 @@ set termguicolors
 set laststatus=2									" showing statusline
 set mps+=<:>			" 괄호짝 찾기에서 <> 도 찾도록 추가
 set showmatch			" show matched brace
+set cursorline
 
 set completeopt+=preview
 
@@ -203,17 +236,17 @@ let g:buffergator_suppress_keymaps = 1
 "let g:buffergator_mru_cycle_loop = 1
 
 " 이전 버퍼로 이동
-nmap <leader>bj :BuffergatorMruCyclePrev<cr>
+nmap <silent>bj :BuffergatorMruCyclePrev<cr>
 
 " 다음 버퍼로 이동
-nmap <leader>bk :BuffergatorMruCycleNext<cr>
+nmap <silent>bk :BuffergatorMruCycleNext<cr>
 
 " 모든 버퍼 보기
-nmap <leader>bl :BuffergatorOpen<cr>
+nmap <silent>bl :BuffergatorOpen<cr>
 
 " 위의 첫번재 해결책과 공유하는 단축키 (버퍼 닫기를 뜻함)
 nmap <leader>T :enew<cr>
-nmap <leader>bq :bp <BAR> bd #<cr>
+nmap <silent>bq :bp <BAR> bd #<cr>
 
 "==========================
 "= Moving lines up or down
@@ -330,6 +363,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gn <Plug>(coc-rename)
+nmap <silent> ge <Plug>(coc-diagnostic-next)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -403,7 +438,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "==========================
 "= Ack settings
 "==========================
-nmap <Leader>g :Rg 
+nmap <Leader>rg :Rg 
 
 "==========================
 "= airline settings
@@ -415,29 +450,29 @@ let g:airline_theme = 'tender'
 " 파일명만 출력
 "let g:airline#extensions#tabline#fnamemod = ':t'
 
-"==========================
-"= ale settings
-"==========================
-"let g:ale_lint_on_save = 1                               "Lint when saving a file
-let g:ale_sign_error = '>>'                               "Lint error sign
-let g:ale_sign_warning = '--'                             "Lint warning sign
-let g:ale_statusline_format =[' %d E ', ' %d W ', '']    "Status line texts
-let g:ale_linters = {
-		\ 'cpp': ['clang'],
-		\ 'c':['clang'],
-		\'python':['flake8', 'pylint']
-		\}                                       "Lint cpp with clang
-
-let g:ale_fixers = {
-		\ 'cpp': ['clang-format'],
-		\ 'c':['clang-format'],
-		\ 'json':['prettier'],
-		\ 'python':['autopep8', 'isort']
-		\ }                                      "Fix clang errors
-" ALEFix, ALEFixSuggest 로 fix 사용 가능
+""==========================
+""= ale settings
+""==========================
+""let g:ale_lint_on_save = 1                               "Lint when saving a file
+"let g:ale_sign_error = '>>'                               "Lint error sign
+"let g:ale_sign_warning = '--'                             "Lint warning sign
+"let g:ale_statusline_format =[' %d E ', ' %d W ', '']    "Status line texts
+"let g:ale_linters = {
+"		\ 'cpp': ['clang'],
+"		\ 'c':['clang'],
+"		\'python':['flake8', 'pylint']
+"		\}                                       "Lint cpp with clang
 "
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled = 1
+"let g:ale_fixers = {
+"		\ 'cpp': ['clang-format'],
+"		\ 'c':['clang-format'],
+"		\ 'json':['prettier'],
+"		\ 'python':['autopep8', 'isort']
+"		\ }                                      "Fix clang errors
+"" ALEFix, ALEFixSuggest 로 fix 사용 가능
+""
+"" Set this. Airline will handle the rest.
+"let g:airline#extensions#ale#enabled = 1
 
 "==========================
 "= VCM settings
@@ -478,9 +513,14 @@ let g:airline#extensions#ale#enabled = 1
 "= autocmd
 "==========================
 autocmd BufEnter *.c        setlocal ts=8 sw=8 sts=8 noexpandtab
+autocmd BufEnter *.h        setlocal ts=8 sw=8 sts=8 noexpandtab
+autocmd BufEnter *.cc       setlocal ts=8 sw=8 sts=8 expandtab
+autocmd BufEnter *.cpp      setlocal ts=8 sw=8 sts=8 expandtab
 autocmd BufEnter *.S        setlocal ts=8 sw=8 sts=8 noexpandtab
 autocmd BufEnter *.py       setlocal ts=4 sw=4 sts=4 noexpandtab
-autocmd BufEnter Makefile   setlocal ts=8 sw=8 sts=8 noexpandtab
+autocmd BufEnter Makefile   setlocal ts=4 sw=4 sts=4 noexpandtab
+autocmd BufEnter Makefile.* setlocal ts=4 sw=4 sts=4 noexpandtab
+autocmd BufEnter *.mk       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter .*         setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.md       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
@@ -516,30 +556,30 @@ let g:rtagsJumpStackMaxSize = 100
 " S-F2 is recognized as <F14>
 " C-F2 is recognized as <F26>
 " A-F2 - not recognized ,but A-F1 is recognized as <F37> (keymap.c goes only up to F37)
-"nmap <S-F2> :copen<CR>
-"nmap <S-F3> :cclose<CR>
-"nmap <S-F4> :Gtags<SPACE>
-"nmap <S-F5> :Gtags -f %<CR>
-"nmap <S-F6> :GtagsCursor<CR>
-"nmap <S-F7> :Gozilla<CR>
-"" nmap <F14> :copen<CR>
-"" nmap <F15> :cclose<CR>
-"" nmap <F17> :Gtags<SPACE>
-"" nmap <F18> :Gtags -f %<CR>
-"" nmap <F19> :GtagsCursor<CR>
-"" nmap <F20> :Gozilla<CR>
-"nmap <C-n> :cn<CR>
-"nmap <C-b> :cp<CR>
-"nmap <C-\><C-]> :GtagsCursor<CR>
-"
-"",gd 입력. 현재 cursor가 위치한 stm",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
-"nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
-"",gs 입력. 현재 cursor가 위치한 stm",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
-"nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
-"",gp 입력, 파일명 검색
-"nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
-"",ge 입력, --regexp 검색.
-"nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
+nmap <S-F2> :copen<CR>
+nmap <S-F3> :cclose<CR>
+nmap <S-F4> :Gtags<SPACE>
+nmap <S-F5> :Gtags -f %<CR>
+nmap <S-F6> :GtagsCursor<CR>
+nmap <S-F7> :Gozilla<CR>
+" nmap <F14> :copen<CR>
+" nmap <F15> :cclose<CR>
+" nmap <F17> :Gtags<SPACE>
+" nmap <F18> :Gtags -f %<CR>
+" nmap <F19> :GtagsCursor<CR>
+" nmap <F20> :Gozilla<CR>
+nmap <C-n> :cn<CR>
+nmap <C-b> :cp<CR>
+nmap <C-\><C-]> :GtagsCursor<CR>
+
+",gd 입력. 현재 cursor가 위치한 stm",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
+nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
+",gs 입력. 현재 cursor가 위치한 stm",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
+nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
+" ",gp 입력, 파일명 검색
+" nmap <Leader>gp :Gtags -Po <C-R>=expand("<cword>")<CR><CR>
+" ",ge 입력, --regexp 검색.
+" nmap <Leader>ge :Gtags -ge <C-R>=expand("<cword>")<CR><CR>
 
 " 위의 사용법과 동일하며, case senmnmap <Leadermnmap <Leadermnmap <Leadermnmap <Leadermnmap <Leaderm
 "====================================================

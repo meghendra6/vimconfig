@@ -15,7 +15,7 @@
             }
         },
         "rust": {
-            "command": "ra_lsp_server",
+            "command": "rust-analyzer",
             "filetypes": ["rust"],
             "rootPatterns": ["Cargo.toml"]
         },

@@ -26,7 +26,7 @@ Plugin 'gmarik/Vundle.vim'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'ajh17/VimCompletesMe'
 
-"Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 "Plugin 'Syntastic'
 "Plugin 'dense-analysis/ale' " Async. Syntastic
 Plugin 'vim-airline/vim-airline'
@@ -66,10 +66,12 @@ Plugin 'CCTree'
 
 "Plugin 'FuzzyFinder'
 "Plugin 'git://git.wincent.com/command-t.git'
-Plugin 'ctrlp.vim'
+" Plugin 'ctrlp.vim'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
 
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'jremmen/vim-ripgrep'
+" Plugin 'jremmen/vim-ripgrep'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'tommcdo/vim-lion'
 Plugin 'surround.vim'
@@ -744,7 +746,7 @@ set tags=tags;/
 
 
 "====================================================
-"= NERD Tree
+"= CCTree
 "====================================================
 
 source ~/.vim/bundle/CCTree/ftplugin/cctree.vim
@@ -778,26 +780,150 @@ let g:NERDTrimTrailingWhitespace = 1
 map <Leader>cc <plug>NERDComToggleComment
 map <Leader>c<space> <plug>NERDComComment
 
-"====================================================
-"= CTRLP
-"====================================================
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
-            \ 'file': '\v\.(exe|so|dll|pyc|o|class|png|jpg|jpeg)$'
-            \ }
-" Ignore in .gitignore
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']       "Ignore in .gitignore
+""====================================================
+""= CTRLP
+""====================================================
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o
+"let g:ctrlp_custom_ignore = {
+"            \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
+"            \ 'file': '\v\.(exe|so|dll|pyc|o|class|png|jpg|jpeg)$'
+"            \ }
+"" Ignore in .gitignore
+"let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']       "Ignore in .gitignore
+"
+"" 가장 가까운 .git 디렉토리를 cwd(현재 작업 디렉토리)로 사용
+"" 버전 관리를 사용하는 프로젝트를 할 때 꽤 적절하다.
+"" .svn, .hg, .bzr도 지원한다.
+"let g:ctrlp_working_path_mode = 'r'
+"
+"" 여러 모드를 위한 단축키
+"nmap <leader>bb :CtrlPBuffer<cr>
+"nmap <leader>bm :CtrlPMixed<cr>
+"nmap <leader>bs :CtrlPMRU<cr>
 
-" 가장 가까운 .git 디렉토리를 cwd(현재 작업 디렉토리)로 사용
-" 버전 관리를 사용하는 프로젝트를 할 때 꽤 적절하다.
-" .svn, .hg, .bzr도 지원한다.
-let g:ctrlp_working_path_mode = 'r'
+"====================================================
+"= fzf
+"====================================================
+" Override C-P to include preview window
+nnoremap <C-p> :call fzf#vim#gitfiles('', fzf#vim#with_preview('right:60%'))<CR>
+" Current buffer tags
+nnoremap <C-r> :BTags<cr>
+" Most recent files
+nnoremap <C-e> :FZFMru<cr>
 
-" 여러 모드를 위한 단축키
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
+" Match the theme on the FZF window
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+\ 'bg':      ['bg', 'Normal'],
+\ 'hl':      ['fg', 'Comment'],
+\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+\ 'hl+':     ['fg', 'Statement'],
+\ 'info':    ['fg', 'PreProc'],
+\ 'prompt':  ['fg', 'Conditional'],
+\ 'pointer': ['fg', 'Exception'],
+\ 'marker':  ['fg', 'Keyword'],
+\ 'spinner': ['fg', 'Label'],
+\ 'header':  ['fg', 'Comment'] }
+
+" Empty value to disable preview window altogether
+let g:fzf_preview_window = ''
+
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
+" [Commands] --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+
+"
+" FZF Most recent files
+"
+command! FZFMru call fzf#run({
+\ 'source':  reverse(s:all_files()),
+\ 'sink':    'edit',
+\ 'options': '-m -x +s',
+\ 'down':    '40%' })
+
+function! s:all_files()
+  return extend(
+  \ filter(copy(v:oldfiles),
+  \        "v:val !~ 'fugitive:\\|NERD_tree\\|^/tmp/\\|.git/'"),
+  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
+endfunction
+
+"
+" FZF Tags in current buffer
+"
+function! s:align_lists(lists)
+  let maxes = {}
+  for list in a:lists
+    let i = 0
+    while i < len(list)
+      let maxes[i] = max([get(maxes, i, 0), len(list[i])])
+      let i += 1
+    endwhile
+  endfor
+  for list in a:lists
+    call map(list, "printf('%-'.maxes[v:key].'s', v:val)")
+  endfor
+  return a:lists
+endfunction
+
+function! s:btags_source()
+  let lines = map(split(system(printf(
+    \ 'ctags -f - --sort=no --excmd=number --language-force=%s %s',
+    \ &filetype, expand('%:S'))), "\n"), 'split(v:val, "\t")')
+  if v:shell_error
+    throw 'failed to extract tags'
+  endif
+  return map(s:align_lists(lines), 'join(v:val, "\t")')
+endfunction
+
+function! s:btags_sink(line)
+  execute split(a:line, "\t")[2]
+endfunction
+
+function! s:btags()
+  try
+    call fzf#run({
+    \ 'source':  s:btags_source(),
+    \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+    \ 'down':    '40%',
+    \ 'sink':    function('s:btags_sink')})
+  catch
+    echohl WarningMsg
+    echom v:exception
+    echohl None
+  endtry
+endfunction
+
+command! BTags call s:btags()
+
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+" Mapping commands
+nmap <silent> fr :Rg<CR>
+nmap <silent> fc :Commits<CR>
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
 
 "====================================================
 "= vim-multiple-cursors

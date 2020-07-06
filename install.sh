@@ -7,6 +7,7 @@ fi
 
 echo "심볼릭 릭크 생성..."
 ln -sfv ~/.vimconfig/vimrc ~/.vimrc
+ln -sfv ~/.vimconfig/vimrc ~/.local/share/nvim/init.vim
 
 echo "vundle 다운로드중..."
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim

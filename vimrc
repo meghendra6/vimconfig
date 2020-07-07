@@ -37,7 +37,7 @@ Plugin 'Lokaltog/vim-easymotion'
 "Plugin 'haya14busa/incsearch-fuzzy.vim'
 
 "Plugin 'snipMate'
-"Plugin 'SirVer/UltiSnips'	" Track the engine.
+" Plugin 'SirVer/UltiSnips'	" Track the engine.
 Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
 Plugin 'neoclide/coc.nvim'
 
@@ -277,32 +277,17 @@ nmap <Leader>f <Plug>(easymotion-overwin-f)
 "= Ultisnips settings
 "==========================
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsListSnippets="<c-tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-h>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+" let g:UltiSnipsExpandTrigger="<cr>"
+" let g:UltiSnipsListSnippets="<c-tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-" If you want :UltiSnipsEdit to split your window.
+" " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
 
 "==========================
-"= Coc-snippet settings
+"= Coc-ultisnips settings
 "==========================
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -315,6 +300,38 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+
+
+""==========================
+""= Coc-snippet settings
+""==========================
+"" Use <C-l> for trigger snippet expand.
+"imap <C-l> <Plug>(coc-snippets-expand)
+"
+"" Use <C-j> for select text for visual placeholder of snippet.
+"vmap <C-j> <Plug>(coc-snippets-select)
+"
+"" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+"let g:coc_snippet_next = '<c-j>'
+"
+"" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+"let g:coc_snippet_prev = '<c-k>'
+"
+"" Use <C-j> for both expand and jump (make expand higher priority.)
+"imap <C-j> <Plug>(coc-snippets-expand-jump)
+"
+"inoremap <silent><expr> <TAB>
+"      \ pumvisible() ? coc#_select_confirm() :
+"      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"      \ <SID>check_back_space() ? "\<TAB>" :
+"      \ coc#refresh()
+"
+"function! s:check_back_space() abort
+"  let col = col('.') - 1
+"  return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
+"
+"let g:coc_snippet_next = '<tab>'
 
 "==========================
 "= Coc settings
@@ -337,13 +354,6 @@ set shortmess+=c
 
 " always show signcolumns
 set signcolumn=yes
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -434,8 +444,6 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-"let g:coc_snippet_next = '<tab>'
 
 "==========================
 "= Ack settings
@@ -807,7 +815,7 @@ map <Leader>c<space> <plug>NERDComComment
 " Override C-P to include preview window
 nnoremap <C-p> :call fzf#vim#gitfiles('', fzf#vim#with_preview('right:60%'))<CR>
 " Current buffer tags
-nnoremap <C-r> :BTags<cr>
+nnoremap <C-w> :BTags<cr>
 " Most recent files
 nnoremap <C-e> :FZFMru<cr>
 
@@ -911,7 +919,7 @@ command! BTags call s:btags()
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " Mapping commands
-nmap <silent> fr :Rg<CR>
+nmap <silent> fg :Rg<CR>
 nmap <silent> fc :Commits<CR>
 
 " Mapping selecting mappings

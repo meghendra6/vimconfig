@@ -4,6 +4,7 @@
     "http.proxyStrictSSL": false,
     "https.proxyStrictSSL": false,
     "coc.preferences.colorSupport": false,
+    "suggest.noselect": false,
     "languageserver": {
         "ccls": {
             "command": "ccls",

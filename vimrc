@@ -12,95 +12,88 @@
 set nocompatible               " be iMproved, required!
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()		" required!
-
-" let Vundle manage Vundle
-" required!
-Plugin 'gmarik/Vundle.vim'
-
-"Plugin 'SuperTab'
-"Plugin 'SuperTab-continued.'
-"Plugin 'OmniCppComplete'
-"Plugin 'AutoComplPop'
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'ajh17/VimCompletesMe'
-
-Plugin 'tpope/vim-fugitive'
-"Plugin 'Syntastic'
-"Plugin 'dense-analysis/ale' " Async. Syntastic
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-Plugin 'Lokaltog/vim-easymotion'
-"Plugin 'haya14busa/incsearch-easymotion.vim'
-"Plugin 'haya14busa/incsearch-fuzzy.vim'
-
-"Plugin 'snipMate'
-" Plugin 'SirVer/UltiSnips'	" Track the engine.
-Plugin 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
-Plugin 'neoclide/coc.nvim'
-
-Plugin 'L9'
-Plugin 'The-NERD-tree'
-"주석달기: \cc, \cn, \cs
-"다른모양 주석 설정: \ca
-"주석해제: \<space>
-Plugin 'The-NERD-Commenter'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-"Plugin 'scrooloose/NERDTreeToggle'
-
-"Plugin 'taglist.vim'
-Plugin 'taglist-plus'
-
-"Plugin 'bufexplorer.zip'
-"Plugin 'DirDiff.vim'
-Plugin 'https://github.com/wesleyche/SrcExpl.git'
-Plugin 'cscope_macros.vim'
-Plugin 'gtags.vim'
-Plugin 'lyuts/vim-rtags'
-"Plugin 'armasm'
-"Plugin 'https://github.com/dhruvasagar/vim-table-mode.git'
-
-Plugin 'CCTree'
-
-"Plugin 'FuzzyFinder'
-"Plugin 'git://git.wincent.com/command-t.git'
-" Plugin 'ctrlp.vim'
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'junegunn/fzf.vim'
-
-Plugin 'terryma/vim-multiple-cursors'
-" Plugin 'jremmen/vim-ripgrep'
-Plugin 'chrisbra/NrrwRgn'
-Plugin 'tommcdo/vim-lion'
-Plugin 'surround.vim'
-Plugin 'Raimondi/delimitMate'
-
-"Pyth
-"Plugin 'klen/python-mode'
-"Plugin 'vim-scripts/Pydiction'
-"Plugin  'scrooloose/syntastic'
-"Plugin 'majutsushi/tagbar'
-
-"Color Highlight
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'marcopaganini/termschool-vim-theme'
-Plugin 'jacoborus/tender.vim'
-"Plugin 'lifepillar/vim-solarized8'
-"Plugin 'tomasr/molokai'
-
-"Plugin 'Shougo/denite.nvim'
-Plugin 'jeetsukumaran/vim-buffergator'
-
-Plugin 'nathanaelkane/vim-indent-guides'
-
-call vundle#end()		" required!
-
 call plug#begin('~/.vim/plugged')
 Plug 'liuchengxu/vim-clap'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'rust-lang/rust.vim'
+
+
+Plug 'gmarik/Vundle.vim'
+
+"Plug 'SuperTab'
+"Plug 'SuperTab-continued.'
+"Plug 'OmniCppComplete'
+"Plug 'AutoComplPop'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'ajh17/VimCompletesMe'
+
+Plug 'tpope/vim-fugitive'
+"Plug 'Syntastic'
+"Plug 'dense-analysis/ale' " Async. Syntastic
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'Lokaltog/vim-easymotion'
+"Plug 'haya14busa/incsearch-easymotion.vim'
+"Plug 'haya14busa/incsearch-fuzzy.vim'
+
+"Plug 'snipMate'
+"Plug 'SirVer/UltiSnips'	" Track the engine.
+Plug 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
+Plug 'neoclide/coc.nvim'
+
+"Ï£ºÏÑùÎã¨Í∏∞: \cc, \cn, \cs
+"Îã§Î•∏Î™®Ïñë Ï£ºÏÑù ÏÑ§Ï†ï: \ca
+"Ï£ºÏÑùÌï¥Ï†ú: \<space>
+Plug 'Xuyuanp/git-nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'scrooloose/NERDTreeToggle'
+
+"Plug 'taglist.vim'
+Plug 'int3/vim-taglist-plus'
+
+"Plug 'bufexplorer.zip'
+"Plug 'DirDiff.vim'
+Plug 'wesleyche/SrcExpl'
+Plug 'vim-scripts/cscope_macros.vim'
+Plug 'vim-scripts/gtags.vim'
+Plug 'lyuts/vim-rtags'
+"Plug 'armasm'
+"Plug 'https://github.com/dhruvasagar/vim-table-mode.git'
+
+Plug 'hari-rangarajan/CCTree'
+
+"Plug 'FuzzyFinder'
+"Plug 'git://git.wincent.com/command-t.git'
+" Plug 'ctrlp.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'terryma/vim-multiple-cursors'
+" Plug 'jremmen/vim-ripgrep'
+Plug 'chrisbra/NrrwRgn'
+Plug 'tommcdo/vim-lion'
+Plug 'tpope/vim-surround'
+Plug 'Raimondi/delimitMate'
+
+"Pyth
+"Plug 'klen/python-mode'
+"Plug 'vim-scripts/Pydiction'
+"Plug  'scrooloose/syntastic'
+"Plug 'majutsushi/tagbar'
+
+"Color Highlight
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'marcopaganini/termschool-vim-theme'
+Plug 'jacoborus/tender.vim'
+"Plug 'lifepillar/vim-solarized8'
+"Plug 'tomasr/molokai'
+
+"Plug 'Shougo/denite.nvim'
+Plug 'jeetsukumaran/vim-buffergator'
+
+Plug 'nathanaelkane/vim-indent-guides'
+
 call plug#end()
 
 " Brief help

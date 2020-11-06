@@ -18,8 +18,6 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'rust-lang/rust.vim'
 
 
-Plug 'gmarik/Vundle.vim'
-
 "Plug 'SuperTab'
 "Plug 'SuperTab-continued.'
 "Plug 'OmniCppComplete'
@@ -48,9 +46,10 @@ Plug 'neoclide/coc.nvim'
 Plug 'Xuyuanp/git-nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 "Plug 'scrooloose/NERDTreeToggle'
+Plug 'preservim/nerdcommenter'
 
 "Plug 'taglist.vim'
-Plug 'int3/vim-taglist-plus'
+" Plug 'int3/vim-taglist-plus'
 
 "Plug 'bufexplorer.zip'
 "Plug 'DirDiff.vim'
@@ -66,7 +65,8 @@ Plug 'hari-rangarajan/CCTree'
 "Plug 'FuzzyFinder'
 "Plug 'git://git.wincent.com/command-t.git'
 " Plug 'ctrlp.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 Plug 'terryma/vim-multiple-cursors'
@@ -80,7 +80,9 @@ Plug 'Raimondi/delimitMate'
 "Plug 'klen/python-mode'
 "Plug 'vim-scripts/Pydiction'
 "Plug  'scrooloose/syntastic'
-"Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
 
 "Color Highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -93,6 +95,9 @@ Plug 'jacoborus/tender.vim'
 Plug 'jeetsukumaran/vim-buffergator'
 
 Plug 'nathanaelkane/vim-indent-guides'
+
+Plug 'Lokaltog/neoranger'
+Plug 'rbgrouleff/bclose.vim'
 
 call plug#end()
 
@@ -244,6 +249,10 @@ nmap <leader>T :enew<cr>
 nmap <silent>bq :bp <BAR> bd #<cr>
 
 "==========================
+"= Rust Lang
+"==========================
+nmap <A-r> :!cargo run<CR>
+"==========================
 "= Moving lines up or down
 "==========================
 nnoremap <A-j> :m .+1<CR>==
@@ -254,14 +263,29 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 "==========================
+"= NeoRanger
+"==========================
+" Open ranger at current file with "-"
+nnoremap <silent> - :RangerCurrentFile<CR>
+
+" Open ranger in current working directory
+nnoremap <silent> <Leader>- :Ranger<CR>
+
+" for setting ranger viewmode values
+let g:neoranger_viewmode='miller' " supported values are ['multipane', 'miller']
+
+" for setting any extra option passed to ranger params
+let g:neoranger_opts='--cmd="set show_hidden true"' " this line makes ranger show hidden files by default
+
+"==========================
 "= Easymotion settings
 "==========================
 " Default key binding
 "map <Leader> <Plug>(easymotion-prefix)
 
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <Leader>e <Plug>(easymotion-bd-f)
+nmap <Leader>e <Plug>(easymotion-overwin-f)
 
 " s{char}{char} to move to {char}{char}
 "nmap <Leader>ff <Plug>(easymotion-overwin-f2)
@@ -441,7 +465,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "==========================
 "= Ack settings
 "==========================
-nmap <Leader>rg :Rg 
+" nmap <Leader>rg :Rg
 
 "==========================
 "= airline settings
@@ -528,6 +552,7 @@ autocmd BufEnter .*         setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.md       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 
+
 "augroup vimrc_autocmds
 ""    autocmd!
 "    " highlight characters past column 120
@@ -546,6 +571,21 @@ if !has('nvim')
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 set laststatus=2
 endif
+
+"====================================================
+"= gtags.vim 설정
+"====================================================
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+
+" config project root markers.
+let g:gutentags_project_root = ['.root']
+
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
 
 "====================================================
 "= gtags.vim 설정
@@ -576,7 +616,8 @@ nmap <C-b> :cp<CR>
 nmap <C-\><C-]> :GtagsCursor<CR>
 
 ",gd 입력. 현재 cursor가 위치한 stm",gr 입력. 현재 cursor가 위치한 string으로 reference검색.사용하는 곳의 위치를 보여줌.
-nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
+" Temporary Disabled for rust
+" nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>
 ",gs 입력. 현재 cursor가 위치한 stm",gg 입력, --grep pattern 검색, 모든 파일에서 검색, (h, c, txt 등)
 nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
 " ",gp 입력, 파일명 검색
@@ -593,7 +634,8 @@ nmap <Leader>gg :Gtags -go <C-R>=expand("<cword>")<CR><CR>
 "map <F3> :BufExplorer<cr>
 map <F4> :NERDTreeToggle<CR>
 map <F5> :SrcExplToggle<CR>
-map <F6> :TlistToggle<CR>
+" map <F6> :TlistToggle<CR>
+map <F6> :TagbarToggle<CR>
 
 "=====  PageUP PageDown
 map <PageUp> <C-U><C-U>
@@ -808,7 +850,7 @@ map <Leader>c<space> <plug>NERDComComment
 " Override C-P to include preview window
 nnoremap <C-p> :call fzf#vim#gitfiles('', fzf#vim#with_preview('right:60%'))<CR>
 " Current buffer tags
-nnoremap <C-w> :BTags<cr>
+nnoremap <C-s> :BTags<cr>
 " Most recent files
 nnoremap <C-e> :FZFMru<cr>
 
@@ -912,8 +954,10 @@ command! BTags call s:btags()
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " Mapping commands
-nmap <silent> fg :Rg<CR>
+nmap <silent> <Leader>rg :Rg <C-R><C-W><CR>
+nmap <silent> rg :Rg<CR>
 nmap <silent> fc :Commits<CR>
+nmap <silent> fd :GFiles<CR>
 
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
@@ -1041,6 +1085,13 @@ source ~/.vimconfig/plugins/checksymbol.vim
 "let g:syntastic_warning_symbol='x'
 "let g:syntastic_style_warning_symbol='x'
 "let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
+
+"====================================================
+"= Rust
+"====================================================
+" rusty-tags must be installed. (cargo install rusty-tags)
+autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
 
 " ============================================================================ "
 " ===                                 MISC.                                === "

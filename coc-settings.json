@@ -1,10 +1,11 @@
 {
-    "http.proxy": "168.219.61.252:8080",
-    "https.proxy": "168.219.61.252:8080",
+    "http.proxy": "http://168.219.61.252:8080",
+    "https.proxy": "http://168.219.61.252:8080",
     "http.proxyStrictSSL": false,
     "https.proxyStrictSSL": false,
     "coc.preferences.colorSupport": false,
     "suggest.noselect": false,
+    "coc.preferences.formatOnSaveFiletypes": ["markdown", "rust"],
     "languageserver": {
         "ccls": {
             "command": "ccls",
@@ -14,11 +15,6 @@
             "initializationOptions": {
                 "cacheDirectory": ".ccls-cache"
             }
-        },
-        "rust": {
-            "command": "rust-analyzer",
-            "filetypes": ["rust"],
-            "rootPatterns": ["Cargo.toml"]
         },
         "bash": {
             "command": "bash-language-server",

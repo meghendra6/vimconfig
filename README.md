@@ -41,3 +41,9 @@ vim 플러그인을 쉽게 설치하기 위한 프로젝트.
 
 #coc 설치
 npm, node, yarn이 있어야하며, 만약 버전이 맞지 않을때는 nvm을 통해 최신 node를 먼저 설치하고 진행해야 한다.
+
+
+#tag 설치
+##global
+##universal-ctags
+sudo snap install universal-ctags

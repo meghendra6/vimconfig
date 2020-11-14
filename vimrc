@@ -74,8 +74,14 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'chrisbra/NrrwRgn'
 Plug 'tommcdo/vim-lion'
 Plug 'tpope/vim-surround'
-Plug 'Raimondi/delimitMate'
 
+" Shows line changes
+Plug 'mhinz/vim-signify'
+
+Plug 'airblade/vim-rooter'
+
+Plug 'Raimondi/delimitMate'
+"
 "Pyth
 "Plug 'klen/python-mode'
 "Plug 'vim-scripts/Pydiction'
@@ -217,6 +223,12 @@ set sw=4
 " Insert spaces when TAB is pressed.
 set expandtab
 
+" Default enable indent guides from plugin
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+
+" default updatetime 4000ms is not good for async update (signify)
+set updatetime=100
 
 
 " Highlight Trailing whitespace

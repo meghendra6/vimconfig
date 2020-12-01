@@ -805,8 +805,6 @@ set tags=tags;/
 "= CCTree
 "====================================================
 
-source ~/.vim/bundle/CCTree/ftplugin/cctree.vim
-
 let g:CCTreeCscopeDb = "cscope.out"
 let g:CCTreeRecursiveDepth = 3
 let g:CCTreeMinVisibleDepth = 3

@@ -87,8 +87,8 @@ Plug 'Raimondi/delimitMate'
 "Plug 'vim-scripts/Pydiction'
 "Plug  'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
+" Plug 'ludovicchabant/vim-gutentags'
+" Plug 'skywind3000/gutentags_plus'
 
 "Color Highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -226,6 +226,7 @@ set expandtab
 " Default enable indent guides from plugin
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
+let g:indent_guides_color_change_percent = 2
 
 " default updatetime 4000ms is not good for async update (signify)
 set updatetime=100

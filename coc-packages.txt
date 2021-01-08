@@ -2,11 +2,11 @@
     "dependencies": {    
       "coc-ccls": ">=0.0.5",    
       "coc-rls": ">=1.1.4",    
-      "coc-rust-analyzer": ">=0.0.12",    
       "coc-python": ">=1.2.6",    
       "coc-ultisnips": ">=1.2.3",    
       "coc-java": ">=1.4.5",    
-      "coc-snippets": ">=2.1.13",    
-      "coc-highlight": ">=1.2.5"    
+      "coc-highlight": ">=1.2.5",
+      "coc-rust-analyzer": ">=0.7.10",
+      "coc-snippets": ">=2.1.28",
     }    
   }   

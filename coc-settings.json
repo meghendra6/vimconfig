@@ -1,8 +1,4 @@
 {
-    "http.proxy": "http://168.219.61.252:8080",
-    "https.proxy": "http://168.219.61.252:8080",
-    "http.proxyStrictSSL": false,
-    "https.proxyStrictSSL": false,
     "coc.preferences.colorSupport": false,
     "suggest.noselect": false,
     "coc.preferences.formatOnSaveFiletypes": ["markdown", "rust"],
@@ -16,9 +12,10 @@
             "command": "ccls",
             "filetypes": ["c", "cpp", "objc", "objcpp"],
             "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
-            "trace.server": "verbose",
             "initializationOptions": {
-                "cacheDirectory": ".ccls-cache"
+                "cache": {
+                    "directory": "/tmp/ccls"
+                }
             }
         },
         "bash": {

@@ -78,7 +78,7 @@ Plug 'tpope/vim-surround'
 " Shows line changes
 Plug 'mhinz/vim-signify'
 
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 
 Plug 'Raimondi/delimitMate'
 "
@@ -104,6 +104,8 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 Plug 'Lokaltog/neoranger'
 Plug 'rbgrouleff/bclose.vim'
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -564,6 +566,7 @@ autocmd BufEnter *.mk       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter .*         setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.md       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
+autocmd BufWritePre *.go    :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
 
 "augroup vimrc_autocmds
@@ -585,20 +588,20 @@ set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 set laststatus=2
 endif
 
-"====================================================
-"= gtags.vim 설정
-"====================================================
-" enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
-
-" config project root markers.
-let g:gutentags_project_root = ['.root']
-
-" generate datebases in my cache directory, prevent gtags files polluting my project
-let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
+""====================================================
+""= gtags.vim 설정
+""====================================================
+"" enable gtags module
+"let g:gutentags_modules = ['ctags', 'gtags_cscope']
+"
+"" config project root markers.
+"let g:gutentags_project_root = ['.root']
+"
+"" generate datebases in my cache directory, prevent gtags files polluting my project
+"let g:gutentags_cache_dir = expand('~/.cache/tags')
+"
+"" change focus to quickfix window after search (optional).
+"let g:gutentags_plus_switch = 1
 
 "====================================================
 "= gtags.vim 설정

@@ -80,8 +80,6 @@ Plug 'mhinz/vim-signify'
 
 Plug 'airblade/vim-rooter'
 
-Plug 'Raimondi/delimitMate'
-"
 "Pyth
 "Plug 'klen/python-mode'
 "Plug 'vim-scripts/Pydiction'

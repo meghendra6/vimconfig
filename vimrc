@@ -78,7 +78,7 @@ Plug 'tpope/vim-surround'
 " Shows line changes
 Plug 'mhinz/vim-signify'
 
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 
 "Pyth
 "Plug 'klen/python-mode'
@@ -104,6 +104,9 @@ Plug 'Lokaltog/neoranger'
 Plug 'rbgrouleff/bclose.vim'
 
 Plug 'puremourning/vimspector'
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 
 call plug#end()
 

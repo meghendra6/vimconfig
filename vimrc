@@ -38,7 +38,7 @@ Plug 'Lokaltog/vim-easymotion'
 "Plug 'snipMate'
 "Plug 'SirVer/UltiSnips'	" Track the engine.
 Plug 'honza/vim-snippets'	" Snippets are separated from the engine. Add this if you want them:
-Plug 'neoclide/coc.nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Ï£ºÏÑùÎã¨Í∏∞: \cc, \cn, \cs
 "Îã§Î•∏Î™®Ïñë Ï£ºÏÑù ÏÑ§Ï†ï: \ca
@@ -80,8 +80,6 @@ Plug 'mhinz/vim-signify'
 
 " Plug 'airblade/vim-rooter'
 
-Plug 'Raimondi/delimitMate'
-"
 "Pyth
 "Plug 'klen/python-mode'
 "Plug 'vim-scripts/Pydiction'
@@ -104,6 +102,8 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 Plug 'Lokaltog/neoranger'
 Plug 'rbgrouleff/bclose.vim'
+
+Plug 'puremourning/vimspector'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -207,7 +207,7 @@ set completeopt+=preview
 let mapleader = ','
 
 " Yank and paste with the system clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " Hides buffers instead of closing them
 set hidden
@@ -808,7 +808,7 @@ set tags=tags;/
 "= CCTree
 "====================================================
 
-source ~/.vim/bundle/CCTree/ftplugin/cctree.vim
+" source ~/.vim/bundle/CCTree/ftplugin/cctree.vim
 
 let g:CCTreeCscopeDb = "cscope.out"
 let g:CCTreeRecursiveDepth = 3
@@ -1108,6 +1108,49 @@ source ~/.vimconfig/plugins/checksymbol.vim
 " rusty-tags must be installed. (cargo install rusty-tags)
 autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
 autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+
+"====================================================
+"= TermDebug
+"====================================================
+"packadd termdebug
+"let g:termdebug_wide=1
+
+"====================================================
+"= Vimspector
+"====================================================
+fun! GotoWindow(id)
+  :call win_gotoid(a:id)
+endfun
+func! AddToWatch()
+  let word = expand("<cexpr>")
+  call vimspector#AddWatch(word)
+endfunction
+let g:vimspector_base_dir = expand('$HOME/.config/vimspector-config')
+let g:vimspector_sidebar_width = 120
+let g:vimspector_bottombar_height = 0
+nnoremap <leader>da :call vimspector#Launch()<CR>
+nnoremap <leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
+nnoremap <leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
+nnoremap <leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
+nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
+nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
+nnoremap <leader>d? :call AddToWatch()<CR>
+nnoremap <leader>dx :call vimspector#Reset()<CR>
+nnoremap <leader>dX :call vimspector#ClearBreakpoints()<CR>
+nnoremap <S-k> :call vimspector#StepOut()<CR>
+nnoremap <S-l> :call vimspector#StepInto()<CR>
+nnoremap <S-j> :call vimspector#StepOver()<CR>
+nnoremap <leader>d_ :call vimspector#Restart()<CR>
+nnoremap <leader>dn :call vimspector#Continue()<CR>
+nnoremap <leader>drc :call vimspector#RunToCursor()<CR>
+nnoremap <leader>dh :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <leader>de :call vimspector#ToggleConditionalBreakpoint()<CR>
+let g:vimspector_sign_priority = {
+  \    'vimspectorBP':         998,
+  \    'vimspectorBPCond':     997,
+  \    'vimspectorBPDisabled': 996,
+  \    'vimspectorPC':         999,
+  \ }
 
 " ============================================================================ "
 " ===                                 MISC.                                === "

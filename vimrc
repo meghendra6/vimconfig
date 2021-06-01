@@ -107,6 +107,10 @@ Plug 'puremourning/vimspector'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'fedorenchik/VimCalc3'
+
 call plug#end()
 
 " Brief help
@@ -567,6 +571,7 @@ autocmd BufEnter .*         setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.md       setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd BufEnter *.sh       setlocal ts=8 sw=8 sts=8 noexpandtab nocindent
 autocmd BufWritePre *.go    :silent call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
 
 
 "augroup vimrc_autocmds
